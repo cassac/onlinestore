@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 def all_products(request):
-	return render(request, 'products/all.html')
+	context = {"products": "All products from context"}
+	return render(request, 'products/all.html', context)
 
 def single_product(request):
-	return render(request, 'products/single.html')
+	context = {"product": "Single product from context"}
+	return render(request, 'products/single.html', context)
