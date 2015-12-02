@@ -1,0 +1,21 @@
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% bootstrap_css %}
+	{% block title %}{% endblock %}
+</head>
+<body>
+{% include "navbar.html" %}
+<div class="container">
+{% block content %}
+<p class="text-primary">Hello from content block in base.html template</p>
+{% endblock %}
+</div>
+
+{% block scripts %}
+	{% bootstrap_javascript %}
+{% endblock %}
+</body>
+</html>
+
