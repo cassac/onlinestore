@@ -1,20 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
+	{% if search_term %}
+		<h2>Results for <strong>&#34;{{ search_term }}&#34;</strong></h2>
+	{% endif %}
 
-	{% for product in products %}
+	{% if products %}
 
-	  <div class="col-sm-6 col-md-4">
-	    <div class="thumbnail">
-	      <img src="//placehold.it/150x150" alt="{{ product.title }}">
-	      <div class="caption text-center">
-	        <h3>{{ product.title }}</h3>
-	        <p>{{ product.description }}</p>
-			<a href='{% url "single_product" product.slug %}' class="btn btn-default" role="button">Details</a>
-	      </div>
-	    </div>
-	  </div>
+		{% for product in products %}
 
-	{% endfor %}
+		  <div class="col-sm-6 col-md-4">
+		    <div class="thumbnail">
+		      <img src="//placehold.it/150x150" alt="{{ product.title }}">
+		      <div class="caption text-center">
+		        <h3>{{ product.title }}</h3>
+		        <p>{{ product.description }}</p>
+				<a href='{% url "single_product" product.slug %}' class="btn btn-default" role="button">Details</a>
+		      </div>
+		    </div>
+		  </div>
+
+		{% endfor %}
+
+	{% else %}
+
+		{% if search_term %}
+			<p>No products matching your search were found.</p>
+		{% else %}
+			<p>No prodcts have been listed in this store.</p>
+		{% endif %}
+
+	{% endif %}
 
 {% endblock %}
