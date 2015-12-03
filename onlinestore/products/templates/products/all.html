@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ block.super }}
-<p>Hello from content block in all.html template</p>
-<p>Context variable: {{ products }}</p>
+
+	{% for product in products %}
+
+	  <div class="col-sm-6 col-md-4">
+	    <div class="thumbnail">
+	      <img src="//placehold.it/150x150" alt="{{ product.title }}">
+	      <div class="caption text-center">
+	        <h3>{{ product.title }}</h3>
+	        <p>{{ product.description }}</p>
+			<a href='{% url "single_product" product.slug %}' class="btn btn-default" role="button">Details</a>
+	      </div>
+	    </div>
+	  </div>
+
+	{% endfor %}
+
 {% endblock %}

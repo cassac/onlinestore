@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{ block.super }}
-<p>Hello from content block in single.html template</p>
-<p>Context variable: {{ product }}</p>
+<h1>{{ product.title }}</h1>
+<p>{{ product.description }}</p>
 {% endblock %}
