@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Cart - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h1>Your Cart</h1>
+<div class="containter">
+
+{% if cart.products %}
+	<ul class='list'>
+	{% for item in cart.products.all %}
+		<li>{{ item }}</li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>No items in your cart.</p>
+{% endif %}
+</div>
+{% endblock %}
