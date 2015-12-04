@@ -14,8 +14,16 @@
 		<div class="col-xs-2">
 			<ul class="nav" style="margin-top:0.5em">
 				<li class="navbar-text pull-right">
-					<span class="glyphicon glyphicon-shopping-cart"></span>
-					<span class="badge">0</span>
+					<a href='{% url "my_cart" %}'>
+						<span class="glyphicon glyphicon-shopping-cart"></span>
+						<span class="badge">
+							{% if 'total_items' in request.session %}
+								{{ request.session.total_items }}
+							{% else %}
+								0
+							{% endif %}
+						</span>
+					</a>
 				</li>
 			</ul>
 		</div>

@@ -5,7 +5,10 @@ from .models import Cart
 from products.models import Product
 
 def my_cart(request):
-	# Retrieves cart or creates one
+	# Initiate cart
+	if 'total_items' not in request.session:
+		request.session['total_items'] = 0
+
 	if request.session.get('cart_id'):
 		cart_id = request.session.get('cart_id')
 		cart = Cart.objects.get(id=cart_id)
@@ -18,6 +21,8 @@ def my_cart(request):
 		return render(request, 'carts/mycart.html', context)
 
 	if request.method == 'POST':
+		total_items = int(request.session['total_items'])
+		request.session['total_items'] = total_items + 1
 		product_slug = request.POST.get('add')
 		product = Product.objects.get(slug=product_slug)
 		cart.products.add(product)
