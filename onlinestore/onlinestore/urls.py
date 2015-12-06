@@ -18,7 +18,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^mycart/', include('carts.urls')),
 	url(r'^', include('products.urls')),
+    url(r'^', include('auth.urls')),
+    url(r'^mycart/', include('carts.urls')),
     url(r'^admin/', admin.site.urls),
 ]
