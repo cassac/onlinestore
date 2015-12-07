@@ -5,6 +5,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% bootstrap_css %}
 		<title>{% block title %}Online Store{% endblock %}</title>
+		<style>
+			.footer {
+			  padding-top: 40px;
+			  padding-bottom: 40px;
+			  margin-top: 40px;
+			  border-top: 1px solid #eee;
+			}
+		</style>
 	</head>
 	<body>
 		{% include "navbar.html" %}
@@ -26,7 +34,15 @@
 			{% block content %}
 
 			{% endblock %}
+
 		</div>
+
+		<div class="container">
+			<footer class="footer">
+				<p>&copy; 2015 Onlinestore, Inc.</p>
+			</footer>
+		</div>
+
 		{% block scripts %}
 			<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 			{% bootstrap_javascript %}

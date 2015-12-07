@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ product.title }}</h1>
-<p>{{ product.description }}</p>
 
+{% include 'breadcrumbs.html' %}
 
-<form method="POST" action='{% url "my_cart" %}'>
-	{% csrf_token %}
-	<input type="hidden" name="add" value={{ product.slug }} />
-	<button type="submit" class="btn btn-success">Add To Cart</button>
-</form>
+<div class="row">
+	<div class="col-xs-12 col-sm-3">
+		<div class="thumbnail">
+			<img src="//placehold.it/150x150" alt="{{ product.title }}">
+		</div>
+		<div class="caption text-center">
+			<form method="POST" action='{% url "my_cart" %}'>
+				{% csrf_token %}
+				<input type="hidden" name="add" value={{ product.slug }} />
+				<button type="submit" class="btn btn-success">Add To Cart</button>
+			</form>
+		</div>		
+	</div>
+	<div class="col-xs-12 col-sm-9">
+		<h3>{{ product.title }}</h3>
+		<p><span class="glyphicon glyphicon-usd">{{ product.price }}</span></p>
+		<p>{{ product.description }}</p>
+	</div>
+</div>
+
 {% endblock %}
