@@ -7,15 +7,40 @@ My Cart - {{ block.super }}
 {% block content %}
 <h1>Your Cart</h1>
 <div class="containter">
-
-{% if cart.products %}
-	<ul class='list'>
-	{% for item in cart.products.all %}
-		<li>{{ item }}</li>
-	{% endfor %}
-	</ul>
-{% else %}
-	<p>No items in your cart.</p>
-{% endif %}
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+		{% if cart.products %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Product ID</th>
+					<th>Product Name</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for item in cart.products.all %}
+			<tr>
+				<th scope="row">{{ forloop.counter }}</th>
+				<td>{{ item.id }}</td>
+				<td>{{ item.title }}</td>
+				<td>{{ item.price }}</td>
+				<td>
+					<a href="{% url 'remove_item' item.slug %}">
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+				</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+			
+		</table>
+		{% else %}
+			<p>No items in your cart.</p>
+		{% endif %}
+		</div>
+	</div>
 </div>
 {% endblock %}

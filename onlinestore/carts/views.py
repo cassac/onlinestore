@@ -29,4 +29,12 @@ def my_cart(request):
 		cart = Cart.objects.get(id=cart.id)
 		context = {'cart': cart}
 		return HttpResponseRedirect(reverse('my_cart'))
-	
+
+def remove_item(request, slug):
+	cart_id = request.session.get('cart_id')
+	cart = Cart.objects.get(id=cart_id)
+	cart.products.remove(Product.objects.get(slug=slug))
+	cart.save()
+	total_items = int(request.session['total_items'])
+	request.session['total_items'] = total_items - 1
+	return HttpResponseRedirect(reverse('my_cart'))
