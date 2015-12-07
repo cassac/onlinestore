@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 from .models import Cart
 from products.models import Product
@@ -21,13 +22,16 @@ def my_cart(request):
 		return render(request, 'carts/mycart.html', context)
 
 	if request.method == 'POST':
-		total_items = int(request.session['total_items'])
-		request.session['total_items'] = total_items + 1
 		product_slug = request.POST.get('add')
 		product = Product.objects.get(slug=product_slug)
-		cart.products.add(product)
-		cart = Cart.objects.get(id=cart.id)
-		context = {'cart': cart}
+		if product in cart.products.all():
+			messages.add_message(request, messages.ERROR, 'Item already in cart.')
+		else:
+			cart.products.add(product)
+			cart = Cart.objects.get(id=cart.id)
+			total_items = int(request.session['total_items'])
+			request.session['total_items'] = total_items + 1		
+			context = {'cart': cart}
 		return HttpResponseRedirect(reverse('my_cart'))
 
 def remove_item(request, slug):
@@ -37,4 +41,5 @@ def remove_item(request, slug):
 	cart.save()
 	total_items = int(request.session['total_items'])
 	request.session['total_items'] = total_items - 1
+	messages.add_message(request, messages.SUCCESS, 'Item removed.')
 	return HttpResponseRedirect(reverse('my_cart'))
