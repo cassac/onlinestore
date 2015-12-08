@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'products',
     'carts',
     'accounts',
+    'localflavor',
 ]
 
 MIDDLEWARE_CLASSES = [
