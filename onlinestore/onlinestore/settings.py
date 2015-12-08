@@ -37,12 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Extra Modules
     'bootstrap3',
     'django_extensions',
+    'localflavor',
+    # Project Apps
     'products',
     'carts',
     'accounts',
-    'localflavor',
+    'orders',
 ]
 
 MIDDLEWARE_CLASSES = [

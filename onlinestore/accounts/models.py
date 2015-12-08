@@ -15,6 +15,9 @@ class UserBillingAddress(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 
+	def __str__(self):
+		return "<UserBillingAddress: %d - %s>" % (self.user.id, self.user.username)
+
 class UserMailingAddress(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	use_billing_address = models.BooleanField(default=False)
@@ -27,3 +30,6 @@ class UserMailingAddress(models.Model):
 	phone = models.CharField(max_length=20, null=True, blank=True)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return "<UserMailingAddress: %d - %s>" % (self.user.id, self.user.username)
