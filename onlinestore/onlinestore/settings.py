@@ -136,3 +136,11 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
 STATICFILES_DIRS = (
     os.path.join(os.path.dirname(BASE_DIR), "static", "static_files"),
 )
+
+
+from django.contrib import messages
+MESSAGE_TAGS = {messages.DEBUG: 'debug',
+                messages.INFO: 'info',
+                messages.SUCCESS: 'success',
+                messages.WARNING: 'warning',
+                messages.ERROR: 'danger'}
