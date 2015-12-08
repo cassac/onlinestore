@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 
 {% block content %}
 	{% if search_term %}
@@ -9,10 +9,9 @@
 	{% if products %}
 
 		{% for product in products %}
-
 		  <div class="col-sm-6 col-md-4">
 		    <div class="thumbnail">
-		      <img src="//placehold.it/150x150" alt="{{ product.title }}">
+		      <img src="{{ MEDIA_URL }}{{ product.productimage_set.first.image }}" alt="{{ product.title }}"/>
 		      <div class="caption text-center">
 		        <h3>{{ product.title }}</h3>
 		        <p>{{ product.description }}</p>
