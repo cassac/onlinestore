@@ -14,7 +14,7 @@ Account Info - {{ block.super }}
 </div>
 <div class='col-md-9'>
 	<h3>Account Info</h3>
-	<form action="{% url 'user_mailing_address' %}" method="post">
+	<form action="{% url 'user_account_info' %}" method="post">
 	    {% csrf_token %}
 	    {{ form.as_p }}
 	    <input type="submit" value="Submit" />
