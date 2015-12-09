@@ -14,4 +14,3 @@ class Order(models.Model):
 
 	def __str__(self):
 		return "<Order: %d>" % (self.id)
-		

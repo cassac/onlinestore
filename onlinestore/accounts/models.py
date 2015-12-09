@@ -5,7 +5,8 @@ from localflavor.us.us_states import US_STATES
 
 class UserBillingAddress(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
-	name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=100)
+	last_name = models.CharField(max_length=100)
 	address1 = models.CharField(max_length=200)
 	address2 = models.CharField(max_length=200, null=True, blank=True)
 	city = models.CharField(max_length=50)
@@ -21,7 +22,8 @@ class UserBillingAddress(models.Model):
 class UserMailingAddress(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	use_billing_address = models.BooleanField(default=False)
-	name = models.CharField(max_length=100, null=True, blank=True)
+	first_name = models.CharField(max_length=100, null=True, blank=True)
+	last_name = models.CharField(max_length=100, null=True, blank=True)
 	address1 = models.CharField(max_length=200, null=True, blank=True)
 	address2 = models.CharField(max_length=200, null=True, blank=True)
 	city = models.CharField(max_length=50, null=True, blank=True)

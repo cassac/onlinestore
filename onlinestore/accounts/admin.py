@@ -4,16 +4,16 @@ from .models import UserBillingAddress, UserMailingAddress
 
 
 class UserBillingAddressAdmin(admin.ModelAdmin):
-	search_fields = ['name']
-	list_display = ['user', 'name', 'address1', 'state']	
+	search_fields = ['first_name', 'last_name']
+	list_display = ['user', 'first_name', 'last_name', 'address1', 'state']	
 	class Meta:
 		model = UserBillingAddress
 
 admin.site.register(UserBillingAddress, UserBillingAddressAdmin)
 
 class UserMailingAddressAdmin(admin.ModelAdmin):
-	search_fields = ['name']
-	list_display = ['user', 'name', 'address1', 'state']	
+	search_fields = ['first_name', 'last_name']
+	list_display = ['user', 'first_name', 'last_name', 'address1', 'state']		
 	class Meta:
 		model = UserMailingAddress
 
