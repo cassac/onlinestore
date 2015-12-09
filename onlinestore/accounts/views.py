@@ -7,8 +7,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import (UserBillingAddressForm, UserMailingAddressForm,
-	UserAccountInfoForm)
+	UserAccountInfoForm, UserRegistrationForm)
 from .models import UserMailingAddress, UserBillingAddress
+
+def user_register(request):
+	form = UserRegistrationForm()
+	context = {'form': form}
+	return render(request, 'accounts/register.html', context)
 
 def user_login(request):
 	if request.method == 'POST':
@@ -34,9 +39,6 @@ def user_logout(request):
 	logout(request)
 	messages.add_message(request, messages.SUCCESS, 'You have successfuly logged out.')
 	return HttpResponseRedirect(reverse('all_products'))
-
-def user_register(request):
-	return render(request, 'accounts/register.html')
 
 @login_required
 def user_billing_address(request):

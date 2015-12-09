@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-This is the content for the registration template
+<div class="row">
+	<div class="col-xs-6 col-xs-offset-3">
+      <form method="POST" action="{% url 'user_register' %}">
+      {% csrf_token %}
+        <h2 class="form-signin-heading">Register</h2>
+		{{ form.email }}
+        {{ form.username }}
+        {{ form.password }}
+        {{ form.password_confirm }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+      </div>
+</div>
 {% endblock %}

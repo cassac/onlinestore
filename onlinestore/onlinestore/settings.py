@@ -148,3 +148,5 @@ MESSAGE_TAGS = {messages.DEBUG: 'debug',
                 messages.SUCCESS: 'success',
                 messages.WARNING: 'warning',
                 messages.ERROR: 'danger'}
+
+LOGIN_URL = 'user_login'                
