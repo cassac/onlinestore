@@ -6,13 +6,41 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import (UserBillingAddressForm, UserMailingAddressForm,
+from .forms import (User, UserBillingAddressForm, UserMailingAddressForm,
 	UserAccountInfoForm, UserRegistrationForm)
 from .models import UserMailingAddress, UserBillingAddress
 
 def user_register(request):
 	form = UserRegistrationForm()
-	context = {'form': form}
+
+	if request.method == 'POST':
+		form = UserRegistrationForm(request.POST)
+		if form.is_valid():
+			username = form.cleaned_data['username']
+			email = form.cleaned_data['email']
+			username_exist = User.objects.filter(username=username).first()
+			email_exist = User.objects.filter(email=email).first()
+
+			if username_exist:
+				messages.add_message(request, messages.ERROR, 'Username already registered.')
+
+			if email_exist:
+				messages.add_message(request, messages.ERROR, 'Email already registered.')
+
+			if form.cleaned_data['password'] == form.cleaned_data['password_confirm']\
+				and not username_exist and not email_exist:
+				new_user = User.objects.create(
+					username=username,
+					email=email)
+				new_user.set_password(form.cleaned_data['password'])
+				new_user.save()
+
+				messages.add_message(request, messages.SUCCESS, 'Account created successfully.')
+				return HttpResponseRedirect(reverse('all_products'))
+			else:
+				messages.add_message(request, messages.ERROR, "Passwords didn't match.")
+
+	context = {'form': form}	
 	return render(request, 'accounts/register.html', context)
 
 def user_login(request):
