@@ -3,7 +3,9 @@
 
 {% block content %}
 	{% if search_term %}
+		{% include 'breadcrumbs.html' %}
 		<h2>Results for <strong>&#34;{{ search_term }}&#34;</strong></h2>
+		}
 	{% endif %}
 
 	{% if products %}
