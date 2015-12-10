@@ -1,15 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from carts.models import Cart
 from .models import Order
+from .utils import generate_order_id
 
 @login_required
 def my_orders(request):
-	return HttpResponse("Your orders are displayed here")
+	user = request.user
+	context = {'orders': user.order_set.all }
+	return render(request, 'orders/history.html', context)
 
 @login_required
 def new_order(request):
@@ -35,6 +38,7 @@ def new_order(request):
 			cart=cart,
 			mailing_address=mailing_address,
 			billing_address=billing_address,
+			order_id=generate_order_id(),
 			subtotal=cart.get_subtotal(),
 			tax=cart.get_tax(),
 			total=cart.get_total()
@@ -42,6 +46,7 @@ def new_order(request):
 		order.save()
 
 		del request.session['cart_id']
+		del request.session['total_items']
 
 		messages.add_message(request, messages.SUCCESS, 'Order submitted uccessfully.')
 		return HttpResponseRedirect(reverse('my_orders'))
