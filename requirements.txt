@@ -1,5 +1,7 @@
 Django==1.9
 django-bootstrap3==6.2.2
 django-extensions==1.5.9
+django-localflavor==1.2
+Pillow==3.0.0
 six==1.10.0
 wheel==0.24.0
