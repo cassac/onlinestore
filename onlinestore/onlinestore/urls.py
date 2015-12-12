@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^mycart/', include('carts.urls')),
     url(r'^orders/', include('orders.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}), 
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes': settings.DEBUG}), 
 ]
 
 if settings.DEBUG:

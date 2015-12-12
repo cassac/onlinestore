@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '2tad@bz$%z^xsx!akp-e*ely&7v8walyn(1+h9i_25dwd1jnga'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -133,7 +133,6 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
-#MEDIA_ROOT = '/Users/jmitch/Desktop/ecommerce/static/media/'
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
 
