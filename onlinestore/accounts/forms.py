@@ -23,6 +23,7 @@ class UserMailingAddressForm(ModelForm):
 class UserAccountInfoForm(ModelForm):
 	class Meta:
 		model = User
+		labels = {'first_name': '名字', 'last_name': '姓氏', 'email': '邮箱地址', 'username': '用户名'}
 		fields = ['email', 'username', 'first_name', 'last_name']
 
 error_messages={'required': '必填'}

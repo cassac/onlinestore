@@ -9,41 +9,41 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>邮件地址 Mailing Address</th>
+					<th>邮件地址</th>
 					<th><a href="{% url 'user_mailing_address' do_redirect='yes' %}">更改邮件地址<span class="glyphicon glyphicon-pencil"></span></a></th>
 				</tr>
 			</thead>
 			<tbody>			
 				<tr>
-					<td>名字 First Name</td>
+					<td>名字</td>
 					<td>{{ mailing_address.first_name }}</td>
 				</tr>
 				<tr>
-					<td>姓氏 Last Name</td>
+					<td>姓氏</td>
 					<td>{{ mailing_address.last_name }}</td>
 				</tr>
 				<tr>
-					<td>地址第一行 Address Line 1</td>
+					<td>地址第一行</td>
 					<td>{{ mailing_address.address1 }}</td>
 				</tr>
 				<tr>
-					<td>地址第二行 Address Line 2</td>
+					<td>地址第二行</td>
 					<td>{{ mailing_address.address2 }}</td>
 				</tr>
 				<tr>
-					<td>城市City</td>
+					<td>城市</td>
 					<td>{{ mailing_address.city }}</td>
 				</tr>
 				<tr>
-					<td>省份 Province/State</td>
+					<td>省份</td>
 					<td>{{ mailing_address.state }}</td>
 				</tr>
 				<tr>
-					<td>邮编 Zipcode</td>
+					<td>邮编</td>
 					<td>{{ mailing_address.zipcode }}</td>
 				</tr>
 				<tr>
-					<td>电话 Phone</td>
+					<td>电话</td>
 					<td>{{ mailing_address.phone }}</td>
 				</tr>
 			</tbody>

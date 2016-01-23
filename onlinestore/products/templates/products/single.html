@@ -13,7 +13,7 @@
 			<form method="POST" action='{% url "my_cart" %}'>
 				{% csrf_token %}
 				<input type="hidden" name="add" value={{ product.slug }} />
-				<button type="submit" class="btn btn-success">Add To Cart</button>
+				<button type="submit" class="btn btn-success">加入购物车</button>
 			</form>
 		</div>		
 	</div>

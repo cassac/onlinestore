@@ -7,7 +7,7 @@ My Cart - {{ block.super }}
 {% block content %}
 {% include 'breadcrumbs.html' %}
 
-<h1>Your Cart</h1>
+<h1>我的购物车</h1>
 <div class="containter">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
@@ -16,9 +16,9 @@ My Cart - {{ block.super }}
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Product ID</th>
-						<th>Product Name</th>
-						<th>Price</th>
+						<th>产品ID号</th>
+						<th>产品名字</th>
+						<th>价格</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -39,24 +39,24 @@ My Cart - {{ block.super }}
 				</tbody>
 				<tfooter>
 					<tr>
-						<td>Subtotal</td>
+						<td>总价</td>
 						<td></td>
 						<td></td>
 						<td>{{ cart.get_subtotal }}</td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>Tax (8%)</td>
+						<td>税费 (8%)</td>
 						<td></td>
 						<td></td>
 						<td>{{ cart.get_tax }}</td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><strong>Total</strong></td>
+						<td><strong>税后总价</strong></td>
 						<td></td>
 						<td></td>
-						<td>{{ cart.get_total }}</td>
+						<td><strong>{{ cart.get_total }}</strong></td>
 						<td></td>
 					</tr>			
 				</tfooter>

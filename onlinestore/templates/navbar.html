@@ -5,9 +5,9 @@
 			<div class="nav" style="margin: .4em">
 				<form role="search" action="{% url 'search_products' %}">
 					<div class="input-group">
-						<input type="text" name="term" class="form-control" placeholder="Search our store for...">
+						<input type="text" name="term" class="form-control" placeholder="搜索我们的产品...">
 						<span class="input-group-btn">
-						<button class="btn btn-default" type="submit">Go!</button>
+						<button class="btn btn-default" type="submit">提交</button>
 						</span>
 					</div>
 				</form>
@@ -33,16 +33,16 @@
 			<ul class="nav navbar-nav">
 			{% if user.is_authenticated %}
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的账户<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="{% url 'user_account_info' %}">Settings</a></li>
-							<li><a href="{% url 'my_orders' %}">Orders</a></li>
+							<li><a href="{% url 'user_account_info' %}">账户明细</a></li>
+							<li><a href="{% url 'my_orders' %}">订单记录</a></li>
 							<li role="separator" class="divider"></li>
-							<li><a href="{% url 'user_logout' %}">Logout</a></li>
+							<li><a href="{% url 'user_logout' %}">退出</a></li>
 						</ul>
 					</li>
 			{% else %}
-				<a href='{% url "user_login" %}'><span class='navbar-text'>Login</span></a>
+				<a href='{% url "user_login" %}'><span class='navbar-text'>登陆</span></a>
 			{% endif %}
 			</ul>
 		</div>

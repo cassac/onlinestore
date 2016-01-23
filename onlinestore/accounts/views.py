@@ -54,7 +54,7 @@ def user_login(request):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				messages.add_message(request, messages.SUCCESS, '成功登陆啦')
+				messages.add_message(request, messages.SUCCESS, '成功登陆啦.祝你购物愉快!')
 				return HttpResponseRedirect(reverse('all_products'))
 			else:
 				messages.add_message(request, messages.WARNING, '账户还没激活')
