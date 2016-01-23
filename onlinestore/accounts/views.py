@@ -127,13 +127,12 @@ def user_mailing_address(request, do_redirect=None):
 	context = {'form': form, 'do_redirect': do_redirect}
 
 	if request.method == 'POST':
-		print('do_redirect: ', do_redirect)
 		f = UserMailingAddressForm(request.POST, instance=user)
 		if f.is_valid():
 			address = user.usermailingaddress_set.create()
 			address.first_name = f.cleaned_data['first_name']
 			address.last_name = f.cleaned_data['last_name']
-			address.use_billing_address = f.cleaned_data['use_billing_address']
+			# address.use_billing_address = f.cleaned_data['use_billing_address']
 			address.address1 = f.cleaned_data['address1']
 			address.address2 = f.cleaned_data['address2']
 			address.city = f.cleaned_data['city']

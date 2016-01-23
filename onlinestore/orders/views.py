@@ -22,8 +22,7 @@ def new_order(request):
 	cart_id = request.session.get('cart_id')
 	cart = Cart.objects.get(id=cart_id)
 	order_total = cart.get_total()
-	context = {'billing_address': billing_address, 
-			   'mailing_address': mailing_address,
+	context = {'mailing_address': mailing_address,
 			   'order_total': order_total
 			   }
 
@@ -53,4 +52,6 @@ def new_order(request):
 
 		messages.add_message(request, messages.SUCCESS, 'Order submitted uccessfully.')
 		return HttpResponseRedirect(reverse('my_orders'))
+	if mailing_address is None or mailing_address.address1 == '':
+		messages.add_message(request, messages.ERROR, '请提供自己的邮件地址')		
 	return render(request, 'orders/new.html', context)

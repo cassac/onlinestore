@@ -15,7 +15,9 @@ class UserBillingAddressForm(ModelForm):
 class UserMailingAddressForm(ModelForm):
 	class Meta:
 		model = UserMailingAddress
-		fields = ['use_billing_address', 'first_name', 'last_name','address1',
+		labels = {'first_name': '名字', 'last_name': '姓氏', 'address1': '地址第一行', 'address2': '地址第二行',
+				 'city': '城市', 'state': '省份', 'zipcode': '邮编', 'phone': '电话'}
+		fields = ['first_name', 'last_name','address1',
 				'address2', 'city', 'state', 'zipcode', 'phone']
 
 class UserAccountInfoForm(ModelForm):

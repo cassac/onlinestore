@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 
-from localflavor.us.us_states import US_STATES
+from localflavor.cn.cn_provinces import CN_PROVINCE_CHOICES
+# from localflavor.us.us_states import US_STATES
 
 class UserBillingAddress(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -10,7 +11,7 @@ class UserBillingAddress(models.Model):
 	address1 = models.CharField(max_length=200)
 	address2 = models.CharField(max_length=200, null=True, blank=True)
 	city = models.CharField(max_length=50)
-	state = models.CharField(max_length=50, choices=US_STATES)
+	state = models.CharField(max_length=50, choices=CN_PROVINCE_CHOICES)
 	zipcode = models.CharField(max_length=20)
 	phone = models.CharField(max_length=20)
 	created = models.DateTimeField(auto_now_add=True)
@@ -27,7 +28,7 @@ class UserMailingAddress(models.Model):
 	address1 = models.CharField(max_length=200, null=True, blank=True)
 	address2 = models.CharField(max_length=200, null=True, blank=True)
 	city = models.CharField(max_length=50, null=True, blank=True)
-	state = models.CharField(max_length=50, choices=US_STATES, blank=True)
+	state = models.CharField(max_length=50, choices=CN_PROVINCE_CHOICES, blank=True)
 	zipcode = models.CharField(max_length=20, null=True, blank=True)
 	phone = models.CharField(max_length=20, null=True, blank=True)
 	created = models.DateTimeField(auto_now_add=True)
