@@ -46,27 +46,27 @@ def user_register(request):
 def user_login(request):
 	form = UserLoginForm()
 	if request.method == 'POST':
-		username = request.POST['inputUsername']
-		password = request.POST['inputPassword']
+		username = request.POST['username']
+		password = request.POST['password']
 		
 		user = authenticate(username=username, password=password)
 
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				messages.add_message(request, messages.SUCCESS, 'You have successfuly logged in.')
+				messages.add_message(request, messages.SUCCESS, '成功登陆啦')
 				return HttpResponseRedirect(reverse('all_products'))
 			else:
-				messages.add_message(request, messages.WARNING, 'Your account is not active.')
+				messages.add_message(request, messages.WARNING, '账户还没激活')
 		else:
-			messages.add_message(request, messages.ERROR, 'Username and/or password invalid.')
+			messages.add_message(request, messages.ERROR, '用户名或密码有误')
 	context = {'form': form}
 	return render(request, 'accounts/login.html', context)
 
 @login_required
 def user_logout(request):
 	logout(request)
-	messages.add_message(request, messages.SUCCESS, 'You have successfuly logged out.')
+	messages.add_message(request, messages.SUCCESS, '成功退出')
 	return HttpResponseRedirect(reverse('all_products'))
 
 @login_required

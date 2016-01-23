@@ -7,15 +7,8 @@
       <form class="form-signin" method="POST" action="{% url 'user_login' %}">
       {% csrf_token %}
         <h2 class="form-signin-heading">请登录</h2>
-        <label for="inputUsername" class="sr-only">用户名</label>
-        <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="用户名" required autofocus>
-        <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="密码" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me">记住我
-          </label>
-        </div>
+        {{ form.username }} {{ form.errors.username }}
+        {{ form.password }} {{ form.errors.password }}
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
       </form>
       <div class="page-header"></div>

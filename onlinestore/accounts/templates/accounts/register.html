@@ -6,7 +6,7 @@
       <form method="POST" action="{% url 'user_register' %}">
       {% csrf_token %}
         <h2 class="form-signin-heading">注册账户</h2>
-		{{ form.email }} {{ form.errors.email }}
+    		{{ form.email }} {{ form.errors.email }}
         {{ form.username }} {{ form.errors.username }}
         {{ form.password }} {{ form.errors.password }}
         {{ form.password_confirm }} {{ form.errors.password_confirm }}
