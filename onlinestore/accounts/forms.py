@@ -25,8 +25,12 @@ class UserAccountInfoForm(ModelForm):
 		model = User
 		fields = ['email', 'username', 'first_name', 'last_name']
 
+error_messages={'required': '必填'}
+
 class UserRegistrationForm(forms.Form):	
-	username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-control'}))
-	email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
-	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}))
-	password_confirm = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'form-control'}))
+	username = forms.CharField(error_messages=error_messages, widget=forms.TextInput(attrs={'placeholder': '用户名', 'class': 'form-control'}))
+	email = forms.CharField(error_messages=error_messages, widget=forms.EmailInput(attrs={'placeholder': '邮箱地址', 'class': 'form-control'}))
+	password = forms.CharField(error_messages=error_messages, widget=forms.PasswordInput(attrs={'placeholder': '密码', 'class': 'form-control'}))
+	password_confirm = forms.CharField(error_messages=error_messages, widget=forms.PasswordInput(attrs={'placeholder': '再次输入密码', 'class': 'form-control'}))
+
+	

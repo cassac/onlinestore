@@ -6,20 +6,20 @@
 	<div class="col-xs-6 col-xs-offset-3">
       <form class="form-signin" method="POST" action="{% url 'user_login' %}">
       {% csrf_token %}
-        <h2 class="form-signin-heading">Please login in</h2>
-        <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
+        <h2 class="form-signin-heading">请登录</h2>
+        <label for="inputUsername" class="sr-only">用户名</label>
+        <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="用户名" required autofocus>
+        <label for="inputPassword" class="sr-only">密码</label>
+        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="密码" required>
         <div class="checkbox">
           <label>
-            <input type="checkbox" value="remember-me"> Remember me
+            <input type="checkbox" value="remember-me">记住我
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
       </form>
       <div class="page-header"></div>
-      <p class="text-center">Don't have an account? <a href="{% url 'user_register' %}">Register here</a>.</p>
+      <p class="text-center">自己没有账户？ <a href="{% url 'user_register' %}">在这里注册账户</a>.</p>
     
 </div>
 
