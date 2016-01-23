@@ -52,7 +52,7 @@
 
 	<div class="col-md-6">
 		<div class="well text-center">
-			<h2>Order Total</h2>
+			<h2>交易总额 Order Total</h2>
 			<h3><span class=" glyphicon glyphicon-usd"></span>{{ order_total }}</h3>
 			<form method="post" action="{% url 'new_order' %}">
 			{% csrf_token %}
@@ -66,7 +66,7 @@
 					<input type="date" name="card_exp" placeholder="Expiration (YYYY/MM/DD)" class="form-control" required>
 				</div>
 
-				<button class="btn btn-success" type=submit>Submit Order</button>
+				<button class="btn btn-success" type=submit>提交交易 Submit Order</button>
 			</form>
 		</div>
 	</div>
