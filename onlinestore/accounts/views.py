@@ -22,10 +22,10 @@ def user_register(request):
 			email_exist = User.objects.filter(email=email).first()
 
 			if username_exist:
-				messages.add_message(request, messages.ERROR, 'Username already registered.')
+				messages.add_message(request, messages.ERROR, '用户名已注册过。请再选一个。')
 
 			if email_exist:
-				messages.add_message(request, messages.ERROR, 'Email already registered.')
+				messages.add_message(request, messages.ERROR, '邮箱地址已注册过。')
 
 			if form.cleaned_data['password'] == form.cleaned_data['password_confirm']\
 				and not username_exist and not email_exist:
@@ -35,10 +35,10 @@ def user_register(request):
 				new_user.set_password(form.cleaned_data['password'])
 				new_user.save()
 
-				messages.add_message(request, messages.SUCCESS, 'Account created successfully.')
+				messages.add_message(request, messages.SUCCESS, '注册成功啦')
 				return HttpResponseRedirect(reverse('all_products'))
 			else:
-				messages.add_message(request, messages.ERROR, "Passwords didn't match.")
+				messages.add_message(request, messages.ERROR, "密码不一致")
 
 	context = {'form': form}	
 	return render(request, 'accounts/register.html', context)
@@ -143,7 +143,7 @@ def user_mailing_address(request, do_redirect=None):
 
 			address.save()
 
-		messages.add_message(request, messages.SUCCESS, 'Mailing address updated.')
+		messages.add_message(request, messages.SUCCESS, '邮件地址更新成功')
 
 		if do_redirect == 'yes':
 			return HttpResponseRedirect(reverse('new_order'))
@@ -173,7 +173,7 @@ def user_account_info(request):
 			user.username = f.cleaned_data['username']
 			user.save()
 
-		messages.add_message(request, messages.SUCCESS, 'Account info updated.')
+		messages.add_message(request, messages.SUCCESS, '账户信息更新成功')
 
 		return HttpResponseRedirect(reverse('user_account_info'))
 

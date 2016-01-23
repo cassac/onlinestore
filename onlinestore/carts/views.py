@@ -25,7 +25,7 @@ def my_cart(request):
 		product_slug = request.POST.get('add')
 		product = Product.objects.get(slug=product_slug)
 		if product in cart.products.all():
-			messages.add_message(request, messages.ERROR, 'Item already in cart.')
+			messages.add_message(request, messages.ERROR, '此产品已加入购物车里')
 		else:
 			cart.products.add(product)
 			cart = Cart.objects.get(id=cart.id)
@@ -41,5 +41,5 @@ def remove_item(request, slug):
 	cart.save()
 	total_items = int(request.session['total_items'])
 	request.session['total_items'] = total_items - 1
-	messages.add_message(request, messages.SUCCESS, 'Item removed.')
+	messages.add_message(request, messages.SUCCESS, '产品被移去')
 	return HttpResponseRedirect(reverse('my_cart'))

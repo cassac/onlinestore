@@ -63,11 +63,11 @@ My Cart - {{ block.super }}
 			</table>
 		<div class="text-center">
 			<a href="{% url 'new_order' %}"
-				<button class="btn btn-danger">Check Out</button>
+				<button class="btn btn-danger">去结账...</button>
 			</a>
 		</div>
 		{% else %}
-			<p>No items in your cart.</p>
+			<p>购物车是空着的</p>
 		{% endif %}
 		</div>
 	</div>
