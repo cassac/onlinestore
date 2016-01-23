@@ -108,7 +108,7 @@ def user_billing_address(request):
 	return render(request, 'accounts/billingaddress.html', context)
 
 @login_required
-def user_mailing_address(request):
+def user_mailing_address(request, do_redirect=None):
 	user = request.user
 	initial = {}
 	if user.usermailingaddress_set.first():
@@ -124,9 +124,10 @@ def user_mailing_address(request):
 		initial['phone'] = address.phone
 
 	form = UserMailingAddressForm(initial=initial)
-	context = {'form': form}
+	context = {'form': form, 'do_redirect': do_redirect}
 
 	if request.method == 'POST':
+		print('do_redirect: ', do_redirect)
 		f = UserMailingAddressForm(request.POST, instance=user)
 		if f.is_valid():
 			address = user.usermailingaddress_set.create()
@@ -144,7 +145,9 @@ def user_mailing_address(request):
 
 		messages.add_message(request, messages.SUCCESS, 'Mailing address updated.')
 
-		return HttpResponseRedirect(reverse('user_mailing_address'))
+		if do_redirect == 'yes':
+			return HttpResponseRedirect(reverse('new_order'))
+		return HttpResponseRedirect(reverse('user_mailing_address', do_redirect))
 
 	return render(request, 'accounts/mailingaddress.html', context)	
 

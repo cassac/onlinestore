@@ -10,7 +10,7 @@ Account Info - {{ block.super }}
 	<ul class="nav nav-pills nav-stacked">
 		<li role="presentation" class="active"><a href="#">Account Info</a></li>	
 		<li role="presentation"><a href="{% url 'user_billing_address' %}">Billing Address</a></li>	
-		<li role="presentation"><a href="{% url 'user_mailing_address' %}">Mailing Address</a></li>
+		<li role="presentation"><a href="{% url 'user_mailing_address' do_redirect='No' %}">Mailing Address</a></li>
 	</ul>
 </div>
 <div class='col-md-9'>

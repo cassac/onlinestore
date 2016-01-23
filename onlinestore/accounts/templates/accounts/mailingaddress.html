@@ -15,7 +15,12 @@ Mailing Address - {{ block.super }}
 </div>
 <div class='col-md-9'>
 	<h3>Mailing Address</h3>
-	<form action="{% url 'user_mailing_address' %}" method="post">
+	{% ifequal do_redirect 'yes' %}
+	{{do_redirect}}
+	{% else %}
+	no
+	{% endifequal %}
+	<form {% ifequal do_redirect 'yes'%}action="{% url 'user_mailing_address' do_redirect='yes' %}"{% else %}action="{% url 'user_mailing_address' %}"{% endifequal%} method="post">
 	    {% csrf_token %}
 	    {{ form.as_p }}
 	    <input type="submit" value="Submit" />
