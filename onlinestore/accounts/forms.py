@@ -33,4 +33,6 @@ class UserRegistrationForm(forms.Form):
 	password = forms.CharField(error_messages=error_messages, widget=forms.PasswordInput(attrs={'placeholder': '密码', 'class': 'form-control'}))
 	password_confirm = forms.CharField(error_messages=error_messages, widget=forms.PasswordInput(attrs={'placeholder': '再次输入密码', 'class': 'form-control'}))
 
-	
+class UserLoginForm(forms.Form):	
+	username = forms.CharField(error_messages=error_messages, widget=forms.TextInput(attrs={'placeholder': '用户名', 'class': 'form-control'}))
+	password = forms.CharField(error_messages=error_messages, widget=forms.PasswordInput(attrs={'placeholder': '密码', 'class': 'form-control'}))

@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import (User, UserBillingAddressForm, UserMailingAddressForm,
-	UserAccountInfoForm, UserRegistrationForm)
+	UserAccountInfoForm, UserRegistrationForm, UserLoginForm)
 from .models import UserMailingAddress, UserBillingAddress
 
 def user_register(request):
@@ -44,6 +44,7 @@ def user_register(request):
 	return render(request, 'accounts/register.html', context)
 
 def user_login(request):
+	form = UserLoginForm()
 	if request.method == 'POST':
 		username = request.POST['inputUsername']
 		password = request.POST['inputPassword']
@@ -59,8 +60,8 @@ def user_login(request):
 				messages.add_message(request, messages.WARNING, 'Your account is not active.')
 		else:
 			messages.add_message(request, messages.ERROR, 'Username and/or password invalid.')
-
-	return render(request, 'accounts/login.html')
+	context = {'form': form}
+	return render(request, 'accounts/login.html', context)
 
 @login_required
 def user_logout(request):
