@@ -28,13 +28,12 @@ def new_order(request):
 			   'stripe_total': stripe_total
 			   }
 	if request.method == 'POST':
+		stripe_token = request.POST['stripeToken']
+
 		if mailing_address is None or mailing_address.address1 == '':
 			messages.add_message(request, messages.ERROR, '请提供自己的邮件地址')
 			return HttpResponseRedirect(reverse('new_order'))		
-		card_num = request.POST['card_num']
-		card_cvv = request.POST['card_cvv']
-		card_exp = request.POST['card_exp']
-		# Validate and do stuff with credit card
+
 		order = Order(
 			user=user,
 			cart=cart,

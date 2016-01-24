@@ -54,26 +54,44 @@
 		<div class="well text-center">
 			<h2>交易总额 Order Total</h2>
 			<h3><span class=" glyphicon glyphicon-usd"></span>{{ order_total }}</h3>
-
-
-			<form action="/charge" method="POST">
-			  <script
-			    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-			    data-key="pk_test_YImFVdqcyJSuV6C6CIKm2ayd"
-			    data-image="/img/documentation/checkout/marketplace.png"
-			    data-name="CASSAC"
-			    data-description="2 widgets"
-			    data-alipay="true"
-			    data-amount="{{ stripe_total }}"
-			    data-currency="usd"
-			    data-locale="zh">
-			  </script>
+			<form action="{% url 'new_order' %}" method="post">
+			    {% csrf_token %}
 			</form>
-
+			<button class='btn btn-info' id="customButton">结算</button>
 
 		</div>
 	</div>
 
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+	{{ block.super }}
+	<script src="https://checkout.stripe.com/checkout.js"></script>
+	<script>
+	  var handler = StripeCheckout.configure({
+	    key: 'pk_test_YImFVdqcyJSuV6C6CIKm2ayd',
+	    image: '{{ STATIC_URL }}logo.jpeg',
+	    locale: 'zh',
+	    alipay: true,
+	    token: function(token) {
+	      var $input = $('<input type=hidden name="stripeToken" />').val(token.id);
+	      $('form').append($input).submit();
+	    }
+	  });
+	  $('#customButton').on('click', function(e) {
+	    handler.open({
+	      name: 'CASSAC网店',
+	      description: '结算',
+	      amount: {{ stripe_total }}
+	    });
+	    e.preventDefault();
+	    console.log('clicked ')
+	  });
+	  $(window).on('popstate', function() {
+	    handler.close();
+	  });
+	</script>
 
 {% endblock %}
