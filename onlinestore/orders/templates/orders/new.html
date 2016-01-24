@@ -57,8 +57,7 @@
 			<form action="{% url 'new_order' %}" method="post">
 			    {% csrf_token %}
 			</form>
-			<button class='btn btn-info' id="customButton">结算</button>
-
+			<button class='btn btn-info' id="checkoutButton">结算</button>
 		</div>
 	</div>
 
@@ -80,7 +79,7 @@
 	      $('form').append($input).submit();
 	    }
 	  });
-	  $('#customButton').on('click', function(e) {
+	  $('#checkoutButton').on('click', function(e) {
 	    handler.open({
 	      name: 'CASSAC网店',
 	      description: '结算',

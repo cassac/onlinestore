@@ -44,8 +44,18 @@ def new_order(request):
 			tax=cart.get_tax(),
 			total=cart.get_total()
 			)
-
 		order.save()
+
+		try:
+			charge = stripe.Charge.create(
+					amount=stripe_total, # amount in cents, again
+					currency="usd",
+					source=token,
+					description="cassac网店交易码: " + order.order_id
+				)
+		except stripe.error.CardError, e:
+			# The card has been declined
+			pass		
 
 		del request.session['cart_id']
 		del request.session['total_items']
