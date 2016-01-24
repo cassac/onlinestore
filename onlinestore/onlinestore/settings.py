@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_extensions',
     'localflavor',
+    'widget_tweaks',
     # Project Apps
     'products',
     'carts',
