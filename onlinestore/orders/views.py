@@ -21,11 +21,12 @@ def new_order(request):
 	billing_address = user.userbillingaddress_set.last()
 	cart_id = request.session.get('cart_id')
 	cart = Cart.objects.get(id=cart_id)
-	order_total = cart.get_total()
+	order_total = str(cart.get_total())
+	stripe_total = order_total.replace('.', '')
 	context = {'mailing_address': mailing_address,
-			   'order_total': order_total
+			   'order_total': order_total,
+			   'stripe_total': stripe_total
 			   }
-
 	if request.method == 'POST':
 		if mailing_address is None or mailing_address.address1 == '':
 			messages.add_message(request, messages.ERROR, '请提供自己的邮件地址')

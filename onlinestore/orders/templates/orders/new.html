@@ -54,20 +54,23 @@
 		<div class="well text-center">
 			<h2>交易总额 Order Total</h2>
 			<h3><span class=" glyphicon glyphicon-usd"></span>{{ order_total }}</h3>
-			<form method="post" action="{% url 'new_order' %}">
-			{% csrf_token %}
-				<div class="form-group">
-					<input type="text" name="card_num" placeholder="Card Number" class="form-control" maxlength="20" required>
-				</div>
-				<div class="form-group">
-					<input type="text" name="card_cvv" placeholder="CVV" class="form-control" maxlength="10" required>
-				</div>
-				<div class="form-group">
-					<input type="date" name="card_exp" placeholder="Expiration (YYYY/MM/DD)" class="form-control" required>
-				</div>
 
-				<button class="btn btn-success" type=submit>提交交易 Submit Order</button>
+
+			<form action="/charge" method="POST">
+			  <script
+			    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+			    data-key="pk_test_YImFVdqcyJSuV6C6CIKm2ayd"
+			    data-image="/img/documentation/checkout/marketplace.png"
+			    data-name="CASSAC"
+			    data-description="2 widgets"
+			    data-alipay="true"
+			    data-amount="{{ stripe_total }}"
+			    data-currency="usd"
+			    data-locale="zh">
+			  </script>
 			</form>
+
+
 		</div>
 	</div>
 
