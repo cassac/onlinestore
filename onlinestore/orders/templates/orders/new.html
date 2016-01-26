@@ -70,7 +70,7 @@
 	<script src="https://checkout.stripe.com/checkout.js"></script>
 	<script>
 	  var handler = StripeCheckout.configure({
-	    key: 'pk_test_YImFVdqcyJSuV6C6CIKm2ayd',
+	    key: '{{ stripe_pub_key }}',
 	    image: '{{ STATIC_URL }}logo.jpeg',
 	    locale: 'zh',
 	    alipay: true,
@@ -83,7 +83,7 @@
 	    handler.open({
 	      name: 'CASSAC网店',
 	      description: '结算',
-	      amount: {{ stripe_total }}
+	      amount: '{{ stripe_total }}'
 	    });
 	    e.preventDefault();
 	    console.log('clicked ')

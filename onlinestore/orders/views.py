@@ -1,3 +1,6 @@
+import os
+import stripe
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -7,6 +10,9 @@ from django.contrib import messages
 from carts.models import Cart
 from .models import Order
 from .utils import generate_order_id
+
+stripe.api_key = os.environ['STRIPE_SECRET_KEY']
+stripe_pub_key = os.environ['STRIPE_PUBLISHABLE_KEY']
 
 @login_required
 def my_orders(request):
@@ -25,7 +31,8 @@ def new_order(request):
 	stripe_total = order_total.replace('.', '')
 	context = {'mailing_address': mailing_address,
 			   'order_total': order_total,
-			   'stripe_total': stripe_total
+			   'stripe_total': stripe_total,
+			   'stripe_pub_key': stripe_pub_key,
 			   }
 	if request.method == 'POST':
 		stripe_token = request.POST['stripeToken']
@@ -44,19 +51,26 @@ def new_order(request):
 			tax=cart.get_tax(),
 			total=cart.get_total()
 			)
-		order.save()
 
 		try:
 			charge = stripe.Charge.create(
 					amount=stripe_total, # amount in cents, again
 					currency="usd",
-					source=token,
-					description="cassac网店交易码: " + order.order_id
+					source=stripe_token,
+					description="cassac网店",
+					metadata={"order_id": order.order_id}
 				)
-		except stripe.error.CardError, e:
-			# The card has been declined
-			pass		
+		except stripe.error.CardError as e:
+			body = e.json_body
+			err  = body['error']
+			print("Status is: %s" % e.http_status)
+			print("Type is: %s" % err['type'])
+			print("Code is: %s" % err['code'])
+			print("Param is: %s" % err['param'])
+			print("Message is: %s" % err['message'])				
 
+		order.save()
+		
 		del request.session['cart_id']
 		del request.session['total_items']
 
