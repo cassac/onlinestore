@@ -14,6 +14,7 @@
 				{% csrf_token %}
 				<input type="hidden" name="product" value={{ product.slug }} />
 				<input type="number" max="9" value="1" name="quantity" class="form-control">
+				<br>
 				<button type="submit" class="btn btn-success">加入购物车</button>
 			</form>
 		</div>		
