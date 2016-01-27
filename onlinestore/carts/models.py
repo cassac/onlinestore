@@ -3,11 +3,21 @@ from decimal import Decimal
 from django.db import models
 from django.core.urlresolvers import reverse
 
-from products.models import Product
+from products.models import Product, ProductVariation
+
+class CartItem(models.Model):
+	cart = models.ForeignKey('Cart', null=True, blank=True)
+	product = models.ForeignKey(Product)
+	variation = models.ManyToManyField(ProductVariation,blank=True)
+	created = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return "<CartItem: %s>" % (self.product.title)
 
 class Cart(models.Model):
 	id = models.AutoField(primary_key=True)
-	products = models.ManyToManyField(Product)
+	# products = models.ManyToManyField(Product)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 

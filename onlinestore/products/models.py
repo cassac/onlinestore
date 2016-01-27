@@ -29,11 +29,15 @@ class VariationManager(models.Manager):
 	def all(self):
 		return super(VariationManager, self).filter(active=True)
 
+	def sizes(self):
+		return self.all().filter(category='size')
+
 	def colors(self):
 		return self.all().filter(category='color')
 
 VAR_CATEGORIES = (
 	('color', 'color'),
+	('size', 'size'),
 	)
 
 class ProductVariation(models.Model):
