@@ -31,8 +31,6 @@ TEST = (
 
 class Cart(models.Model):
 	id = models.AutoField(primary_key=True)
-	# products = models.ManyToManyField(Product)
-	test = models.CharField(max_length=120, choices=TEST)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 
