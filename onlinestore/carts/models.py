@@ -15,9 +15,24 @@ class CartItem(models.Model):
 	def __str__(self):
 		return "<CartItem: %s>" % (self.product.title)
 
+	def color(self):
+	# Display color variation
+		return ', '.join([v.title for v in self.variation.filter(category='color').all()])
+
+	def size(self):
+	# Display size variation
+		return ', '.join([v.title for v in self.variation.filter(category='size').all()])
+
+
+TEST = (
+	('color', 'color'),
+	('size', 'size'),
+	)
+
 class Cart(models.Model):
 	id = models.AutoField(primary_key=True)
 	# products = models.ManyToManyField(Product)
+	test = models.CharField(max_length=120, choices=TEST)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 
