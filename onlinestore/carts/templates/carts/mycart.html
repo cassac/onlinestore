@@ -42,21 +42,21 @@ My Cart - {{ block.super }}
 						<td>总价</td>
 						<td></td>
 						<td></td>
-						<td>{{ cart }}</td>
+						<td>{{ cart.get_subtotal }}</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>税费 (8%)</td>
 						<td></td>
 						<td></td>
-						<td>{{ cart }}</td>
+						<td>{{ cart.get_tax }}</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><strong>税后总价</strong></td>
 						<td></td>
 						<td></td>
-						<td><strong>{{ cart}}</strong></td>
+						<td><strong>{{ cart.get_total }}</strong></td>
 						<td></td>
 					</tr>			
 				</tfooter>
