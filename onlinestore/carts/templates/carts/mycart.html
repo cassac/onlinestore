@@ -18,6 +18,8 @@ My Cart - {{ block.super }}
 						<th>#</th>
 						<th>产品ID号</th>
 						<th>产品名字</th>
+						<th>单价</th>
+						<th>数量</th>
 						<th>价格</th>
 						<th></th>
 					</tr>
@@ -29,6 +31,8 @@ My Cart - {{ block.super }}
 					<td>{{ item.product.id }}</td>
 					<td>{{ item.product.title }}</td>
 					<td>{{ item.product.price }}</td>
+					<td>{{ item.quantity }}</td>
+					<td>{{ item.total_price }}</td>
 					<td>
 						<a href="{% url 'remove_item' cart_item_id=item.id %}">
 							<span class="glyphicon glyphicon-remove"></span>
@@ -42,6 +46,8 @@ My Cart - {{ block.super }}
 						<td>总价</td>
 						<td></td>
 						<td></td>
+						<td></td>
+						<td></td>
 						<td>{{ cart.get_subtotal }}</td>
 						<td></td>
 					</tr>
@@ -49,11 +55,15 @@ My Cart - {{ block.super }}
 						<td>税费 (8%)</td>
 						<td></td>
 						<td></td>
+						<td></td>
+						<td></td>
 						<td>{{ cart.get_tax }}</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><strong>税后总价</strong></td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td><strong>{{ cart.get_total }}</strong></td>

@@ -8,12 +8,16 @@ from products.models import Product, ProductVariation
 class CartItem(models.Model):
 	cart = models.ForeignKey('Cart', null=True, blank=True)
 	product = models.ForeignKey(Product)
+	quantity = models.IntegerField(blank=False)
 	variation = models.ManyToManyField(ProductVariation,blank=True)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 
 	def __str__(self):
 		return "<CartItem: %s>" % (self.product.title)
+
+	def total_price(self):
+		return self.quantity * self.product.price
 
 	def color(self):
 	# Display color variation
