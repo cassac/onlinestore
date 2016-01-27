@@ -11,7 +11,7 @@ My Cart - {{ block.super }}
 <div class="containter">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-		{% if cart.products.all %}
+		{% if cart.cartitem_set.all %}
 			<table class="table">
 				<thead>
 					<tr>
@@ -23,14 +23,14 @@ My Cart - {{ block.super }}
 					</tr>
 				</thead>
 				<tbody>
-				{% for item in cart.products.all %}
+				{% for item in cart.cartitem_set.all %}
 				<tr>
 					<th scope="row">{{ forloop.counter }}</th>
-					<td>{{ item.id }}</td>
-					<td>{{ item.title }}</td>
-					<td>{{ item.price }}</td>
+					<td>{{ item.product.id }}</td>
+					<td>{{ item.product.title }}</td>
+					<td>{{ item.product.price }}</td>
 					<td>
-						<a href="{% url 'remove_item' item.slug %}">
+						<a href="{% url 'remove_item' cart_item_id=item.id %}">
 							<span class="glyphicon glyphicon-remove"></span>
 						</a>
 					</td>
@@ -42,21 +42,21 @@ My Cart - {{ block.super }}
 						<td>总价</td>
 						<td></td>
 						<td></td>
-						<td>{{ cart.get_subtotal }}</td>
+						<td>{{ cart }}</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>税费 (8%)</td>
 						<td></td>
 						<td></td>
-						<td>{{ cart.get_tax }}</td>
+						<td>{{ cart }}</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><strong>税后总价</strong></td>
 						<td></td>
 						<td></td>
-						<td><strong>{{ cart.get_total }}</strong></td>
+						<td><strong>{{ cart}}</strong></td>
 						<td></td>
 					</tr>			
 				</tfooter>

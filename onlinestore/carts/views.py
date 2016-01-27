@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 
-from .models import Cart
+from .models import Cart, CartItem
 from products.models import Product
 
 def my_cart(request):
@@ -24,22 +24,25 @@ def my_cart(request):
 	if request.method == 'POST':
 		product_slug = request.POST.get('add')
 		product = Product.objects.get(slug=product_slug)
-		if product in cart.products.all():
+		if product in cart.cartitem_set.all():
 			messages.add_message(request, messages.ERROR, '此产品已加入购物车里')
 		else:
-			cart.products.add(product)
+			new_item = CartItem(cart=cart, product=product)
+			new_item.save()
+			cart.cartitem_set.add(new_item)
 			cart = Cart.objects.get(id=cart.id)
 			total_items = int(request.session['total_items'])
 			request.session['total_items'] = total_items + 1		
 			context = {'cart': cart}
 		return HttpResponseRedirect(reverse('my_cart'))
 
-def remove_item(request, slug):
+def remove_item(request, cart_item_id):
 	cart_id = request.session.get('cart_id')
 	cart = Cart.objects.get(id=cart_id)
-	cart.products.remove(Product.objects.get(slug=slug))
+	cart_item = CartItem.objects.get(id=cart_item_id)
+	cart.cartitem_set.remove(cart_item)
 	cart.save()
 	total_items = int(request.session['total_items'])
 	request.session['total_items'] = total_items - 1
-	messages.add_message(request, messages.SUCCESS, '产品被移去')
+	messages.add_message(request, messages.SUCCESS, '产品被删除')
 	return HttpResponseRedirect(reverse('my_cart'))
