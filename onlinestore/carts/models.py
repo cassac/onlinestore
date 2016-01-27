@@ -23,12 +23,6 @@ class CartItem(models.Model):
 	# Display size variation
 		return ', '.join([v.title for v in self.variation.filter(category='size').all()])
 
-
-TEST = (
-	('color', 'color'),
-	('size', 'size'),
-	)
-
 class Cart(models.Model):
 	id = models.AutoField(primary_key=True)
 	created = models.DateTimeField(auto_now_add=True)
