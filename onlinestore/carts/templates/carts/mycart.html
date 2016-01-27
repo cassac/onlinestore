@@ -31,7 +31,11 @@ My Cart - {{ block.super }}
 					<td>{{ item.product.id }}</td>
 					<td>{{ item.product.title }}</td>
 					<td>{{ item.product.price }}</td>
-					<td>{{ item.quantity }}</td>
+					<td style="min-width: 75px; width: 75px;">
+						<input type="number" min="1" max="9" size="6"value="{{ item.quantity }}" name="quantity" class="form-control">
+					
+					</td>
+						
 					<td>{{ item.total_price }}</td>
 					<td>
 						<a href="{% url 'remove_item' cart_item_id=item.id %}">
