@@ -36,7 +36,7 @@ class Cart(models.Model):
 		return "<Cart: %d>" % (self.id)
 
 	def get_subtotal(self):
-		return Decimal(sum([item.product.price for item in self.cartitem_set.all()]))
+		return Decimal(sum([cart_item.total_price() for cart_item in self.cartitem_set.all()]))
 
 	def get_tax(self):
 		two_places = Decimal(10) ** -2

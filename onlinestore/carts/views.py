@@ -29,10 +29,8 @@ def my_cart(request):
 			for idx, cart_item in enumerate(cart.cartitem_set.all()):
 				cart_item.quantity = quantities[idx]
 				cart_item.save()
-			return HttpResponseRedirect(reverse('my_cart'))
 
 		else:
-
 			product_slug = request.POST.get('product')
 			quantity = request.POST.get('quantity')
 			product = Product.objects.get(slug=product_slug)
@@ -45,9 +43,9 @@ def my_cart(request):
 				cart.cartitem_set.add(new_item)
 				cart = Cart.objects.get(id=cart.id)
 				total_items = int(request.session['total_items'])
-				request.session['total_items'] = total_items + 1		
-				context = {'cart': cart}
-			return HttpResponseRedirect(reverse('my_cart'))
+				request.session['total_items'] = total_items + 1
+
+		return HttpResponseRedirect(reverse('my_cart'))
 
 
 def remove_item(request, cart_item_id):
