@@ -22,21 +22,33 @@ def my_cart(request):
 		return render(request, 'carts/mycart.html', context)
 
 	if request.method == 'POST':
-		product_slug = request.POST.get('product')
-		quantity = request.POST.get('quantity')
-		product = Product.objects.get(slug=product_slug)
-		if product in cart.cartitem_set.all():
-			messages.add_message(request, messages.ERROR, '此产品已加入购物车里')
+
+		if request.POST.get('_method') == 'put':
+			quantities = [quantity for quantity in request.POST.getlist('quantity')]
+			# print(dir(cart))
+			for idx, cart_item in enumerate(cart.cartitem_set.all()):
+				cart_item.quantity = quantities[idx]
+				cart_item.save()
+			return HttpResponseRedirect(reverse('my_cart'))
+
 		else:
-			new_item = CartItem(cart=cart, product=product, 
-				quantity=quantity)
-			new_item.save()
-			cart.cartitem_set.add(new_item)
-			cart = Cart.objects.get(id=cart.id)
-			total_items = int(request.session['total_items'])
-			request.session['total_items'] = total_items + 1		
-			context = {'cart': cart}
-		return HttpResponseRedirect(reverse('my_cart'))
+
+			product_slug = request.POST.get('product')
+			quantity = request.POST.get('quantity')
+			product = Product.objects.get(slug=product_slug)
+			if product in cart.cartitem_set.all():
+				messages.add_message(request, messages.ERROR, '此产品已加入购物车里')
+			else:
+				new_item = CartItem(cart=cart, product=product, 
+					quantity=quantity)
+				new_item.save()
+				cart.cartitem_set.add(new_item)
+				cart = Cart.objects.get(id=cart.id)
+				total_items = int(request.session['total_items'])
+				request.session['total_items'] = total_items + 1		
+				context = {'cart': cart}
+			return HttpResponseRedirect(reverse('my_cart'))
+
 
 def remove_item(request, cart_item_id):
 	cart_id = request.session.get('cart_id')
