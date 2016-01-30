@@ -149,4 +149,4 @@ MESSAGE_TAGS = {messages.DEBUG: 'debug',
                 messages.WARNING: 'warning',
                 messages.ERROR: 'danger'}
 
-LOGIN_URL = 'user_login'                
+LOGIN_URL = 'user_login'          

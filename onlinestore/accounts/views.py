@@ -46,16 +46,15 @@ def user_register(request):
 def user_login(request):
 	form = UserLoginForm()
 	if request.method == 'POST':
+		next_url = request.GET.get('next', '')
 		username = request.POST['username']
 		password = request.POST['password']
-		
 		user = authenticate(username=username, password=password)
-
 		if user is not None:
 			if user.is_active:
 				login(request, user)
 				messages.add_message(request, messages.SUCCESS, '成功登陆啦.祝你购物愉快!')
-				return HttpResponseRedirect(reverse('all_products'))
+				return HttpResponseRedirect(next_url or reverse('all_products'))
 			else:
 				messages.add_message(request, messages.WARNING, '账户还没激活')
 		else:
