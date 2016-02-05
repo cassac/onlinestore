@@ -6,6 +6,8 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 
 from carts.models import Cart
 from .models import Order
@@ -60,6 +62,21 @@ def new_order(request):
 					description="cassac网店",
 					metadata={"order_id": order.order_id}
 				)
+			print(charge)
+			if charge.status == 'succeeded':
+				try:
+					customer_email_address = charge.source.username # used for alipay charge
+				except AttributeError:
+					customer_email_address = charge.source.name # used for cc charge
+				except:
+					customer_email_address = None
+			if customer_email_address is not None:
+				send_mail(subject='CASSAC网店交易成功', 
+						  message='谢谢您的光临。我们已收到您的订单了，会尽快发货！\n祝您今天愉快\nCASSAC网店', 
+						  from_email=settings.EMAIL_HOST_USER,
+						  recipient_list=[customer_email_address], 
+						  fail_silently=False)
+				print(customer_email_address)
 		except stripe.error.CardError as e:
 			body = e.json_body
 			err  = body['error']
