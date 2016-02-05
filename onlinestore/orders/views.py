@@ -71,7 +71,7 @@ def new_order(request):
 					customer_email_address = None
 			if customer_email_address is not None:
 				send_mail(subject='CASSAC网店交易成功', 
-						  message='谢谢您的光临。我们已收到您的订单了，会尽快发货！\n祝您今天愉快\nCASSAC网店', 
+						  message='谢谢您的光临。我们已收到您的订单了，会尽快发货！\n\n祝您今天愉快\n\nCASSAC网店', 
 						  from_email=settings.EMAIL_HOST_USER,
 						  recipient_list=[customer_email_address], 
 						  fail_silently=False)
