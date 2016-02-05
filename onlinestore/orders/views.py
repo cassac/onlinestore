@@ -62,7 +62,6 @@ def new_order(request):
 					description="cassac网店",
 					metadata={"order_id": order.order_id}
 				)
-			print(charge)
 			if charge.status == 'succeeded':
 				try:
 					customer_email_address = charge.source.username # used for alipay charge
@@ -76,7 +75,6 @@ def new_order(request):
 						  from_email=settings.EMAIL_HOST_USER,
 						  recipient_list=[customer_email_address], 
 						  fail_silently=False)
-				print(customer_email_address)
 		except stripe.error.CardError as e:
 			body = e.json_body
 			err  = body['error']
