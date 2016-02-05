@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import UserBillingAddress, UserMailingAddress
+from .models import UserBillingAddress, UserMailingAddress, UserStripe
 
 
 class UserBillingAddressAdmin(admin.ModelAdmin):
@@ -18,3 +18,10 @@ class UserMailingAddressAdmin(admin.ModelAdmin):
 		model = UserMailingAddress
 
 admin.site.register(UserMailingAddress, UserMailingAddressAdmin)
+
+class UserStripeAdmin(admin.ModelAdmin):
+	
+	class Meta:
+		model = UserStripe
+
+admin.site.register(UserStripe, UserStripeAdmin)

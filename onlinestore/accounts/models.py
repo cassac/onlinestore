@@ -36,3 +36,11 @@ class UserMailingAddress(models.Model):
 
 	def __str__(self):
 		return "<UserMailingAddress: %d - %s>" % (self.user.id, self.user.username)
+
+class UserStripe(models.Model):
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
+	stripe_id = models.CharField(max_length=200, null=True, blank=True)
+
+	def __str__(self):
+		return "User: %d" & (self.user.email)
+
