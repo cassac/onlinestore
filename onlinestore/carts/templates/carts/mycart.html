@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %}
 My Cart - {{ block.super }}
@@ -7,30 +8,46 @@ My Cart - {{ block.super }}
 {% block content %}
 {% include 'breadcrumbs.html' %}
 
-<h1>Your Cart</h1>
+<h1>我的购物车</h1>
 <div class="containter">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-		{% if cart.products.all %}
+		{% if cart.cartitem_set.all %}
+		<form action="{% url 'my_cart' %}" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="_method" value="put" />
 			<table class="table">
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Product ID</th>
-						<th>Product Name</th>
-						<th>Price</th>
+						<th>产品ID号</th>
+						<th>产品名字</th>
+						<th>单价</th>
+						<th>数量</th>
+						<th>价格</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-				{% for item in cart.products.all %}
+				{% for item in cart.cartitem_set.all %}
 				<tr>
 					<th scope="row">{{ forloop.counter }}</th>
-					<td>{{ item.id }}</td>
-					<td>{{ item.title }}</td>
-					<td>{{ item.price }}</td>
+					<td>{{ item.product.id }}</td>
 					<td>
-						<a href="{% url 'remove_item' item.slug %}">
+						{{ item.product.title }}
+						{% if item.variation %}
+							{% for var in item.variation.all %}
+								<small>{{ var.category|title }}: {{ var.title }}</smalll><br>
+							{% endfor %}
+						{% endif %}
+					</td>
+					<td>{{ item.product.price }}</td>
+					<td style="min-width: 75px; width: 75px;">
+						<input type="number" min="1" max="9" size="6"value="{{ item.quantity }}" name="quantity" class="form-control">
+					</td>
+					<td>{{ item.total_price }}</td>
+					<td>
+						<a href="{% url 'remove_item' cart_item_id=item.id %}">
 							<span class="glyphicon glyphicon-remove"></span>
 						</a>
 					</td>
@@ -39,37 +56,49 @@ My Cart - {{ block.super }}
 				</tbody>
 				<tfooter>
 					<tr>
-						<td>Subtotal</td>
+						<td>总价</td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td>{{ cart.get_subtotal }}</td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>Tax (8%)</td>
+						<td>税费 (8%)</td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td>{{ cart.get_tax }}</td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><strong>Total</strong></td>
+						<td><strong>税后总价</strong></td>
 						<td></td>
 						<td></td>
-						<td>{{ cart.get_total }}</td>
+						<td></td>
+						<td><input id='updateBtn' type='submit' class='btn btn-success btn-xs pull-right' value='更新购物车'></td>
+						<td><strong>{{ cart.get_total }}</strong></td>
 						<td></td>
 					</tr>			
 				</tfooter>
 			</table>
+		</form>
 		<div class="text-center">
-			<a href="{% url 'new_order' %}"
-				<button class="btn btn-danger">Check Out</button>
+			<a href="{% url 'new_order' %}">
+				<button class="btn btn-danger">去结算</button>
 			</a>
 		</div>
 		{% else %}
-			<p>No items in your cart.</p>
+			<p>购物车是空着的</p>
 		{% endif %}
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static "js/main.js" %}"></script>
 {% endblock %}

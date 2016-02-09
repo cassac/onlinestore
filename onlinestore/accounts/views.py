@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import (User, UserBillingAddressForm, UserMailingAddressForm,
-	UserAccountInfoForm, UserRegistrationForm)
+	UserAccountInfoForm, UserRegistrationForm, UserLoginForm)
 from .models import UserMailingAddress, UserBillingAddress
 
 def user_register(request):
@@ -22,10 +22,10 @@ def user_register(request):
 			email_exist = User.objects.filter(email=email).first()
 
 			if username_exist:
-				messages.add_message(request, messages.ERROR, 'Username already registered.')
+				messages.add_message(request, messages.ERROR, '用户名已注册过。请再选一个。')
 
 			if email_exist:
-				messages.add_message(request, messages.ERROR, 'Email already registered.')
+				messages.add_message(request, messages.ERROR, '邮箱地址已注册过。')
 
 			if form.cleaned_data['password'] == form.cleaned_data['password_confirm']\
 				and not username_exist and not email_exist:
@@ -35,37 +35,37 @@ def user_register(request):
 				new_user.set_password(form.cleaned_data['password'])
 				new_user.save()
 
-				messages.add_message(request, messages.SUCCESS, 'Account created successfully.')
+				messages.add_message(request, messages.SUCCESS, '注册成功啦')
 				return HttpResponseRedirect(reverse('all_products'))
 			else:
-				messages.add_message(request, messages.ERROR, "Passwords didn't match.")
+				messages.add_message(request, messages.ERROR, "密码不一致")
 
 	context = {'form': form}	
 	return render(request, 'accounts/register.html', context)
 
 def user_login(request):
+	form = UserLoginForm()
 	if request.method == 'POST':
-		username = request.POST['inputUsername']
-		password = request.POST['inputPassword']
-		
+		next_url = request.GET.get('next', '')
+		username = request.POST['username']
+		password = request.POST['password']
 		user = authenticate(username=username, password=password)
-
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				messages.add_message(request, messages.SUCCESS, 'You have successfuly logged in.')
-				return HttpResponseRedirect(reverse('all_products'))
+				messages.add_message(request, messages.SUCCESS, '成功登陆啦.祝你购物愉快!')
+				return HttpResponseRedirect(next_url or reverse('all_products'))
 			else:
-				messages.add_message(request, messages.WARNING, 'Your account is not active.')
+				messages.add_message(request, messages.WARNING, '账户还没激活')
 		else:
-			messages.add_message(request, messages.ERROR, 'Username and/or password invalid.')
-
-	return render(request, 'accounts/login.html')
+			messages.add_message(request, messages.ERROR, '用户名或密码有误')
+	context = {'form': form}
+	return render(request, 'accounts/login.html', context)
 
 @login_required
 def user_logout(request):
 	logout(request)
-	messages.add_message(request, messages.SUCCESS, 'You have successfuly logged out.')
+	messages.add_message(request, messages.SUCCESS, '成功退出')
 	return HttpResponseRedirect(reverse('all_products'))
 
 @login_required
@@ -108,7 +108,7 @@ def user_billing_address(request):
 	return render(request, 'accounts/billingaddress.html', context)
 
 @login_required
-def user_mailing_address(request):
+def user_mailing_address(request, do_redirect=None):
 	user = request.user
 	initial = {}
 	if user.usermailingaddress_set.first():
@@ -124,7 +124,7 @@ def user_mailing_address(request):
 		initial['phone'] = address.phone
 
 	form = UserMailingAddressForm(initial=initial)
-	context = {'form': form}
+	context = {'form': form, 'do_redirect': do_redirect}
 
 	if request.method == 'POST':
 		f = UserMailingAddressForm(request.POST, instance=user)
@@ -132,7 +132,7 @@ def user_mailing_address(request):
 			address = user.usermailingaddress_set.create()
 			address.first_name = f.cleaned_data['first_name']
 			address.last_name = f.cleaned_data['last_name']
-			address.use_billing_address = f.cleaned_data['use_billing_address']
+			# address.use_billing_address = f.cleaned_data['use_billing_address']
 			address.address1 = f.cleaned_data['address1']
 			address.address2 = f.cleaned_data['address2']
 			address.city = f.cleaned_data['city']
@@ -142,9 +142,11 @@ def user_mailing_address(request):
 
 			address.save()
 
-		messages.add_message(request, messages.SUCCESS, 'Mailing address updated.')
+		messages.add_message(request, messages.SUCCESS, '邮件地址更新成功')
 
-		return HttpResponseRedirect(reverse('user_mailing_address'))
+		if do_redirect == 'yes':
+			return HttpResponseRedirect(reverse('new_order'))
+		return HttpResponseRedirect(reverse('user_mailing_address', do_redirect))
 
 	return render(request, 'accounts/mailingaddress.html', context)	
 
@@ -170,7 +172,7 @@ def user_account_info(request):
 			user.username = f.cleaned_data['username']
 			user.save()
 
-		messages.add_message(request, messages.SUCCESS, 'Account info updated.')
+		messages.add_message(request, messages.SUCCESS, '账户信息更新成功')
 
 		return HttpResponseRedirect(reverse('user_account_info'))
 

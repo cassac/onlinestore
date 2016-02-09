@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block title %}
 Account Info - {{ block.super }}
@@ -8,17 +9,27 @@ Account Info - {{ block.super }}
 {% include 'breadcrumbs.html' %}
 <div class='col-md-3'>
 	<ul class="nav nav-pills nav-stacked">
-		<li role="presentation" class="active"><a href="#">Account Info</a></li>	
-		<li role="presentation"><a href="{% url 'user_billing_address' %}">Billing Address</a></li>	
-		<li role="presentation"><a href="{% url 'user_mailing_address' %}">Mailing Address</a></li>
+		<li role="presentation" class="active"><a href="#">账户信息</a></li>	
+		{% comment %}
+		<li role="presentation"><a href="{% url 'user_billing_address' %}">Billing Address</a></li>
+		{% endcomment %}	
+		<li role="presentation"><a href="{% url 'user_mailing_address' do_redirect='No' %}">邮件地址</a></li>
 	</ul>
 </div>
 <div class='col-md-9'>
-	<h3>Account Info</h3>
+	<h3>更新账户信息</h3>
 	<form action="{% url 'user_account_info' %}" method="post">
 	    {% csrf_token %}
-	    {{ form.as_p }}
-	    <input type="submit" value="Submit" />
+	    {{ form.email.label }}
+	    {{ form.email|add_class:"form-control"|append_attr:"placeholder:邮箱地址" }}
+	    {{ form.username.label }}
+	    {{ form.username|add_class:"form-control"|append_attr:"placeholder:用户名" }}
+	    {{ form.first_name.label }}
+	    {{ form.first_name|add_class:"form-control"|append_attr:"placeholder:名字" }}
+	    {{ form.last_name.label }}
+	    {{ form.last_name|add_class:"form-control"|append_attr:"placeholder:姓氏" }}
+
+	    <input class='btn btn-primary' type="submit" value="提交" />
 	</form>
 </div>
 {% endblock %}

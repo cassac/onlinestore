@@ -4,126 +4,93 @@
 
 <div class="row">
 	
-	<div class="col-md-4">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Billing Address</th>
-					<th><a href="{% url 'user_billing_address' %}">Edit <span class="glyphicon glyphicon-pencil"></span></a></th>
-				</tr>
-			</thead>
-			<tbody>	
-				<tr>
-					<td>First Name</td>
-					<td>{{ billing_address.first_name }}</td>
-				</tr>
-				<tr>
-					<td>Last Name</td>
-					<td>{{ billing_address.last_name }}</td>
-				</tr>
-				<tr>
-					<td>Address Line 1</td>
-					<td>{{ billing_address.address1 }}</td>
-				</tr>
-				<tr>
-					<td>Address Line 2</td>
-					<td>{{ billing_address.address2 }}</td>
-				</tr>
-				<tr>
-					<td>City</td>
-					<td>{{ billing_address.city }}</td>
-				</tr>
-				<tr>
-					<td>State</td>
-					<td>{{ billing_address.state }}</td>
-				</tr>
-				<tr>
-					<td>Zipcode</td>
-					<td>{{ billing_address.zipcode }}</td>
-				</tr>
-				<tr>
-					<td>Phone</td>
-					<td>{{ billing_address.phone }}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
 
-	<div class="col-md-4">
+	<div class="col-md-6">
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Mailing Address</th>
-					<th><a href="{% url 'user_mailing_address' %}">Edit <span class="glyphicon glyphicon-pencil"></span></a></th>
+					<th>邮件地址</th>
+					<th><a href="{% url 'user_mailing_address' do_redirect='yes' %}">更改邮件地址<span class="glyphicon glyphicon-pencil"></span></a></th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody>			
 				<tr>
-					<td>Use Billing Address?</td>
-					<td>{% if mailing_address.use_billing_address %}
-							Yes
-						{% else %}
-							No
-						{% endif %}
-					</td>
-				</tr>			
-				<tr>
-					<td>First Name</td>
+					<td>名字</td>
 					<td>{{ mailing_address.first_name }}</td>
 				</tr>
 				<tr>
-					<td>Last Name</td>
+					<td>姓氏</td>
 					<td>{{ mailing_address.last_name }}</td>
 				</tr>
 				<tr>
-					<td>Address Line 1</td>
+					<td>地址第一行</td>
 					<td>{{ mailing_address.address1 }}</td>
 				</tr>
 				<tr>
-					<td>Address Line 2</td>
+					<td>地址第二行</td>
 					<td>{{ mailing_address.address2 }}</td>
 				</tr>
 				<tr>
-					<td>City</td>
+					<td>城市</td>
 					<td>{{ mailing_address.city }}</td>
 				</tr>
 				<tr>
-					<td>State</td>
+					<td>省份</td>
 					<td>{{ mailing_address.state }}</td>
 				</tr>
 				<tr>
-					<td>Zipcode</td>
+					<td>邮编</td>
 					<td>{{ mailing_address.zipcode }}</td>
 				</tr>
 				<tr>
-					<td>Phone</td>
+					<td>电话</td>
 					<td>{{ mailing_address.phone }}</td>
 				</tr>
 			</tbody>
 		</table>		
 	</div>
 
-	<div class="col-md-4">
+	<div class="col-md-6">
 		<div class="well text-center">
-			<h2>Order Total</h2>
+			<h2>交易总额 Order Total</h2>
 			<h3><span class=" glyphicon glyphicon-usd"></span>{{ order_total }}</h3>
-			<form method="post" action="{% url 'new_order' %}">
-			{% csrf_token %}
-				<div class="form-group">
-					<input type="text" name="card_num" placeholder="Card Number" class="form-control" maxlength="20" required>
-				</div>
-				<div class="form-group">
-					<input type="text" name="card_cvv" placeholder="CVV" class="form-control" maxlength="10" required>
-				</div>
-				<div class="form-group">
-					<input type="date" name="card_exp" placeholder="Expiration (YYYY/MM/DD)" class="form-control" required>
-				</div>
-
-				<button class="btn btn-success" type=submit>Submit Order</button>
+			<form action="{% url 'new_order' %}" method="post">
+			    {% csrf_token %}
 			</form>
+			<button class='btn btn-info' id="checkoutButton">结算</button>
 		</div>
 	</div>
 
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+	{{ block.super }}
+	<script src="https://checkout.stripe.com/checkout.js"></script>
+	<script>
+	  var handler = StripeCheckout.configure({
+	    key: '{{ stripe_pub_key }}',
+	    image: '{{ STATIC_URL }}logo.jpeg',
+	    locale: 'zh',
+	    alipay: true,
+	    token: function(token) {
+	      var $input = $('<input type=hidden name="stripeToken" />').val(token.id);
+	      $('form').append($input).submit();
+	    }
+	  });
+	  $('#checkoutButton').on('click', function(e) {
+	    handler.open({
+	      name: 'CASSAC网店',
+	      description: '结算',
+	      amount: '{{ stripe_total }}'
+	    });
+	    e.preventDefault();
+	    console.log('clicked ')
+	  });
+	  $(window).on('popstate', function() {
+	    handler.close();
+	  });
+	</script>
 
 {% endblock %}

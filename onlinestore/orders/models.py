@@ -16,7 +16,7 @@ class Order(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	cart = models.ForeignKey(Cart)
 	mailing_address = models.ForeignKey(UserMailingAddress)
-	billing_address = models.ForeignKey(UserBillingAddress)
+	billing_address = models.ForeignKey(UserBillingAddress, blank=True, null=True)
 	order_id = models.CharField(max_length=10)	
 	status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="Processing")
 	subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
@@ -26,4 +26,4 @@ class Order(models.Model):
 	updated = models.DateTimeField(auto_now=True) 	
 
 	def __str__(self):
-		return "<Order: %d>" % (self.id)
+		return "<Order: %s>" % (self.order_id)

@@ -4,8 +4,7 @@
 {% block content %}
 	{% if search_term %}
 		{% include 'breadcrumbs.html' %}
-		<h2>Results for <strong>&#34;{{ search_term }}&#34;</strong></h2>
-		}
+		<h2><strong>&#34;{{ search_term }}&#34;</strong>的搜索结果</h2>
 	{% endif %}
 
 	{% if products %}
@@ -17,7 +16,7 @@
 		      <div class="caption text-center">
 		        <h3>{{ product.title }}</h3>
 		        <p>{{ product.description }}</p>
-				<a href='{% url "single_product" product.slug %}' class="btn btn-default" role="button">Details</a>
+				<a href='{% url "single_product" product.slug %}' class="btn btn-default" role="button">产品明细</a>
 		      </div>
 		    </div>
 		  </div>
@@ -27,7 +26,7 @@
 	{% else %}
 
 		{% if search_term %}
-			<p>No products matching your search were found.</p>
+			<p>度不起，搜不到你想要的东西。</p>
 		{% else %}
 			<p>No prodcts have been listed in this store.</p>
 		{% endif %}
