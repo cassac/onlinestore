@@ -9,13 +9,20 @@ easypost.api_key = settings.EASYPOST_API_KEY
 def get_shipping_rates(request):
 	if request.method == 'GET':
 
-		# Create parcel for rate calculation
-		parcel = easypost.Parcel.create(
-		  length = 9, #inches
-		  width = 6,
-		  height = 2,
-		  weight = 10, # ounces
-		)
+		try:
+			# Create parcel for rate calculation
+			parcel = easypost.Parcel.create(
+			  length = 9, #inches
+			  width = 6,
+			  height = 2,
+			  weight = 10, # ounces
+			)
+		except:
+			rates = {
+				'message': 'Error loading parcel'
+				}
+			data = json.dumps(rates)
+			return HttpResponse(data, content_type='application/json')
 
 		try:
 			fromAddress = easypost.Address.create(
@@ -76,7 +83,7 @@ def get_shipping_rates(request):
 					'currency': option.currency
 				}
 		data = json.dumps(shipping_rates)
-		return HttpResponse('hello', content_type='application/json')
+		return HttpResponse(data, content_type='application/json')
 
 
 @csrf_exempt
