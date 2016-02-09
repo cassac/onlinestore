@@ -34,11 +34,18 @@ def my_cart(request):
 			product_slug = request.POST.get('product')
 			quantity = request.POST.get('quantity')
 			product = Product.objects.get(slug=product_slug)
+			variation_color = request.POST.get('color', None)
+			variation_size = request.POST.get('size', None)
 			if product in cart.cartitem_set.all():
 				messages.add_message(request, messages.ERROR, '此产品已加入购物车里')
 			else:
 				new_item = CartItem(cart=cart, product=product, 
 					quantity=quantity)
+				new_item.save()
+				if variation_color is not None:
+					new_item.variation.add(variation_color)
+				if variation_size is not None:
+					new_item.variation.add(variation_size)
 				new_item.save()
 				cart.cartitem_set.add(new_item)
 				cart = Cart.objects.get(id=cart.id)

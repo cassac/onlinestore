@@ -33,7 +33,14 @@ My Cart - {{ block.super }}
 				<tr>
 					<th scope="row">{{ forloop.counter }}</th>
 					<td>{{ item.product.id }}</td>
-					<td>{{ item.product.title }}</td>
+					<td>
+						{{ item.product.title }}
+						{% if item.variation %}
+							{% for var in item.variation.all %}
+								<small>{{ var.category|title }}: {{ var.title }}</smalll><br>
+							{% endfor %}
+						{% endif %}
+					</td>
 					<td>{{ item.product.price }}</td>
 					<td style="min-width: 75px; width: 75px;">
 						<input type="number" min="1" max="9" size="6"value="{{ item.quantity }}" name="quantity" class="form-control">

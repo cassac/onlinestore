@@ -19,7 +19,7 @@
 				 	{% if product.productvariation_set.sizes %}
 				 	<select class='form-control' name='size'>
 				 	{% for item in product.productvariation_set.sizes %}
-				 		<option value='{{ item.title }}'>{{ item.title }}</option>
+				 		<option value='{{ item.id }}'>{{ item.title }}</option>
 				 		{% endfor %}
 				 	</select>
 				 	{% endif %}
@@ -27,7 +27,7 @@
 				 	 {% if product.productvariation_set.colors %}
 				 	<select class='form-control' name='color'>
 				 	{% for item in product.productvariation_set.colors %}
-				 		<option value='{{ item.title }}'>{{ item.title }}</option>
+				 		<option value='{{ item.id }}'>{{ item.title }}</option>
 				 		{% endfor %}
 				 	</select>
 				 	{% endif %}
