@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'carts',
     'accounts',
     'orders',
+    # 'shipping',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -168,7 +169,7 @@ MESSAGE_TAGS = {messages.DEBUG: 'debug',
 
 SITE_ID = 1
 
-LOGIN_URL = '/accounts/login'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 #
