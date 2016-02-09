@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'carts',
     'accounts',
     'orders',
-    # 'shipping',
+    'shipping',
 ]
 
 MIDDLEWARE_CLASSES = [
