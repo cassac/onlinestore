@@ -48,7 +48,9 @@ class ProductVariation(models.Model):
 	price = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True)
 	updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 	active = models.BooleanField(default=True)
-
+	length = models.IntegerField(null=False)
+	width = models.IntegerField(null=False)
+	height = models.IntegerField(null=False)
 	objects = VariationManager()
 
 	def __str__(self):
