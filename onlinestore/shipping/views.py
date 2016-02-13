@@ -6,16 +6,38 @@ from django.http import HttpResponse
 
 easypost.api_key = settings.EASYPOST_API_KEY
 
+def parse_shipping(name):
+	word_list = []
+	temp = ''
+	upper_counter = 0
+
+	for n in range(len(name)):
+
+		if name[n].isupper() and upper_counter < 3:
+			upper_counter += 1
+		
+			if len(temp) > 1:
+				word_list.append(temp)
+				temp = ''
+		
+		elif upper_counter == 3:
+			return ' '.join(word_list)
+
+		if len(word_list) < 3:
+			temp += name[n]
+
+	return [name[:12]]
+
 def get_shipping_rates(request):
 	if request.method == 'GET':
-
+		user_address = request.user.usermailingaddress_set.first()
 		try:
 			# Create parcel for rate calculation
 			parcel = easypost.Parcel.create(
 			  length = 9, #inches
 			  width = 6,
 			  height = 2,
-			  weight = 10, # ounces
+			  weight = 8, # ounces
 			)
 		except:
 			rates = {
@@ -43,12 +65,14 @@ def get_shipping_rates(request):
 
 		try:
 			toAddress = easypost.Address.create(
-			  name = 'George Costanza',
-			  company = 'Vandelay Industries',
-			  street1 = '1 E 161st St.',
-			  city = 'Bronx',
-			  state = 'NY',
-			  zip = '10451'
+			  name = user_address.first_name +' '+user_address.last_name,
+			  # company = 'Vandelay Industries',
+			  street1 = user_address.address1,
+			  stree2 = user_address.address2,
+			  city = user_address.city,
+			  state = user_address.state,
+			  country = 'CN',
+			  zip = user_address.zipcode,
 			)
 		except:
 			rates = {
@@ -56,7 +80,7 @@ def get_shipping_rates(request):
 				}
 			data = json.dumps(rates)
 			return HttpResponse(data, content_type='application/json')			
-
+		print(toAddress)
 		try:
 			shipment = easypost.Shipment.create(
 			  to_address = toAddress,
@@ -70,19 +94,55 @@ def get_shipping_rates(request):
 			data = json.dumps(rates)
 			return HttpResponse(data, content_type='application/json')	
 
+		try:
+			customs_item1 = easypost.CustomsItem.create(
+			  description = 'T-shirt',
+			  quantity = 1,
+			  value = 11,
+			  weight = 6,
+			  hs_tariff_number = 610910,
+			  origin_country = 'US'
+			)
+		except:
+			rates = {
+				'message': 'Error creating custom_item1'
+				}
+			data = json.dumps(rates)
+			return HttpResponse(data, content_type='application/json')	
+
+		try:
+			customs_info = easypost.CustomsInfo.create(
+			  eel_pfc = 'NOEEI 30.37(a)',
+			  customs_certify = True,
+			  customs_signer = 'Jarrett Streebin',
+			  contents_type = 'gift',
+			  customs_items = [customs_item1]
+			)
+		except:
+			rates = {
+				'message': 'Error creating customs_info'
+				}
+			data = json.dumps(rates)
+
+
 		shipment = easypost.Shipment.create(
-		  to_address = toAddress,
-		  from_address = fromAddress,
-		  parcel = parcel
+			to_address = toAddress,
+			from_address = fromAddress,
+			parcel = parcel,
+			customs_info = customs_info,
 		)
 
 		shipping_rates = {}
+
 		for option in shipment.rates:
-			shipping_rates[option.service] = {
+			service_type = parse_shipping(option.service)
+			shipping_rates[service_type] = {
 					'rate': option.rate,
-					'currency': option.currency
+					'currency': option.currency,
+					'rate_id': option.id,
 				}
 		data = json.dumps(shipping_rates)
+
 		return HttpResponse(data, content_type='application/json')
 
 
