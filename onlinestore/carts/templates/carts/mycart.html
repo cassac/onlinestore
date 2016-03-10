@@ -59,6 +59,10 @@ My Cart - {{ block.super }}
 						<td>邮费</td>
 						<td></td>
 						<td>
+							<div id='loading'>
+								<img src="{{ STATIC_URL }}spinner.gif">
+								正在计算运费
+							</div>
 							 <select id="shippingRatesMenu">
 
 							</select> 
