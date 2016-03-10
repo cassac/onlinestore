@@ -29,6 +29,8 @@ class CartItem(models.Model):
 
 class Cart(models.Model):
 	id = models.AutoField(primary_key=True)
+	shipping_rate = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2)
+	shipping_rate_id = models.CharField(null=True, blank=True, max_length=200)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 
