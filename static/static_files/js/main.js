@@ -10,6 +10,16 @@ var parseShippingRates = function(ratesArray) {
 	$('#shippingRatesMenu').append(listHTML);
 }
 
+$(document).ajaxStart(function(){
+	$('#loading').show();
+	$('#shippingRatesMenu').hide();
+}).ajaxStop(function(){
+	$('#loading').hide();
+	$('#shippingRatesMenu').show();
+});
+
+
+
 var getShippingRates = function(){
 
 	// setToken();
