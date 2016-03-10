@@ -50,7 +50,7 @@ class Cart(models.Model):
 		total = self.get_subtotal() + self.get_tax()
 		return total.quantize(two_places)
 
-	def have_calculated_shipping(self):
+	def has_calculated_shipping(self):
 		if not self.shipping_rate:
 			return False
 		return True
