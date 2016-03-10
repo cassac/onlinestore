@@ -1,3 +1,9 @@
+# Specific
+static/media
+static/static_root
+static/static_files/fav.ico
+static/static_files/logo.jpeg
+
 # Database
 *.sqlite3
 *.db
@@ -13,7 +19,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 migrations/
-static/
 env/
 build/
 develop-eggs/
