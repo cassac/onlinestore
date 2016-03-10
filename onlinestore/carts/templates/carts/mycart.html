@@ -103,9 +103,7 @@ My Cart - {{ block.super }}
 			</table>
 		</form>
 		<div class="text-center">
-			<a href="{% url 'new_order' %}">
-				<button class="btn btn-danger">去结算</button>
-			</a>
+			<button id="submitOrder" class="btn btn-danger">去结算</button>
 		</div>
 		{% else %}
 			<p>购物车是空着的</p>
