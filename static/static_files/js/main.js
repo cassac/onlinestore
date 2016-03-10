@@ -22,9 +22,11 @@ var parseShippingRates = function(ratesArray) {
 }
 
 $(document).ajaxStart(function(){
+	$('#submitOrder').attr("disabled", true);
 	$('#loading').show();
 	$('#shippingRatesMenu').hide();
 }).ajaxStop(function(){
+	$('#submitOrder').attr("disabled", false);
 	$('#loading').hide();
 	$('#shippingRatesMenu').show();
 });
