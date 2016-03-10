@@ -96,7 +96,7 @@ My Cart - {{ block.super }}
 						<td></td>
 						<td></td>
 						<td><input id='updateBtn' type='submit' class='btn btn-success btn-xs pull-right' value='更新购物车'></td>
-						<td><strong>{{ cart.get_total }}</strong></td>
+						<td id="subTotal" data-subtotal="{{ cart.get_total }}"><strong id="totalPrice"></strong></td>
 						<td></td>
 					</tr>			
 				</tfooter>

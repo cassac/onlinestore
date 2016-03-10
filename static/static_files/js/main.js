@@ -1,5 +1,9 @@
 var addShippingPrice = function(price) {
 	$('#shippingPrice').html(price);
+	var preTotal = $('#subTotal').attr('data-subtotal');
+	var preTotalWithShipping = parseFloat(preTotal) + parseFloat(price);
+	var newTotal = preTotalWithShipping.toFixed(2);
+	$('#totalPrice').html(newTotal);
 }
 
 $(document).on('change', '#shippingRatesMenu', function(event){
