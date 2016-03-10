@@ -18,7 +18,7 @@ def user_register(request):
 		if form.is_valid():
 			username = form.cleaned_data['username']
 			email = form.cleaned_data['email']
-			username_exist = User.objects.filter(username=username).first()
+			username_exist = User.objects.filter(username=username).last()
 			email_exist = User.objects.filter(email=email).first()
 
 			if username_exist:
