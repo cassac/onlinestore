@@ -94,7 +94,7 @@ def get_shipping_rates(request):
 				}
 			data = json.dumps(rates)
 			return HttpResponse(data, content_type='application/json')			
-		print(toAddress)
+
 		try:
 			shipment = easypost.Shipment.create(
 			  to_address = toAddress,

@@ -11,7 +11,7 @@ My Cart - {{ block.super }}
 <h1>我的购物车</h1>
 <div class="containter">
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-md-10 col-md-offset-1">
 		{% if cart.cartitem_set.all %}
 		<form action="{% url 'my_cart' %}" method="post">
 			{% csrf_token %}
