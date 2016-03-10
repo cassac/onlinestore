@@ -49,3 +49,8 @@ class Cart(models.Model):
 		two_places = Decimal(10) ** -2
 		total = self.get_subtotal() + self.get_tax()
 		return total.quantize(two_places)
+
+	def have_calculated_shipping(self):
+		if not self.shipping_rate:
+			return False
+		return True
