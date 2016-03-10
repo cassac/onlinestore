@@ -63,3 +63,8 @@ $(document).ready(function(){
 	getShippingRates();
 
 });
+
+$('#submitOrder').on('click', function(e){
+	e.preventDefault();
+	console.log('order submitted');
+})
