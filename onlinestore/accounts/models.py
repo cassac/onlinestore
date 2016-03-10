@@ -37,6 +37,12 @@ class UserMailingAddress(models.Model):
 	def __str__(self):
 		return "<UserMailingAddress: %d - %s>" % (self.user.id, self.user.username)
 
+	def is_complete(self):
+		if not self.first_name or not self.last_name or not self.address1 or not self.city\
+			or not self.state or not self.zipcode or not self.phone:
+			return False
+		return True
+
 class UserStripe(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	stripe_id = models.CharField(max_length=200, null=True, blank=True)
