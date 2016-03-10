@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.http import JsonResponse
 
 from .models import Cart, CartItem
 from products.models import Product
@@ -53,6 +54,11 @@ def my_cart(request):
 				request.session['total_items'] = total_items + 1
 
 		return HttpResponseRedirect(reverse('my_cart'))
+
+	if request.method == 'PUT':
+
+		return JsonResponse({'detail': '订单更新了咱们去结算吧！'})
+
 
 
 def remove_item(request, cart_item_id):
