@@ -34,7 +34,7 @@ def parse_shipping(name):
 def get_shipping_rates(request):
 	if request.method == 'GET':
 
-		user_address = request.user.usermailingaddress_set.first()
+		user_address = request.user.usermailingaddress_set.last()
 
 		if user_address == None or not user_address.is_complete():
 			messages.add_message(request, messages.ERROR, '请提供邮件地址再结算')
