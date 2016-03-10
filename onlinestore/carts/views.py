@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -56,7 +58,11 @@ def my_cart(request):
 		return HttpResponseRedirect(reverse('my_cart'))
 
 	if request.method == 'PUT':
-
+		body = request.body.decode('utf-8')
+		data = json.loads(body)
+		cart.shipping_rate = float(data['rate'])
+		cart.shipping_rate_id = data['rate_id']
+		cart.save()
 		return JsonResponse({'detail': '订单更新了咱们去结算吧！'})
 
 
