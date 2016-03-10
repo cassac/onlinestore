@@ -1,13 +1,20 @@
+var addShippingPrice = function(price) {
+	$('#shippingPrice').html(price);
+}
+
+$(document).on('change', '#shippingRatesMenu', function(event){
+	var newPrice = $('#shippingRatesMenu').find(":selected").attr('data-price');
+	addShippingPrice(newPrice);
+})
+
 var parseShippingRates = function(ratesArray) {
-	console.log(ratesArray);
 	var listHTML = '';
 	$.each(ratesArray, function(index, value) {
-		console.log(index, value);
-		item = "<option value="+value.rate_id+">"+ index + " "+value.rate +" "+value.currency + "</option>";
+		item = "<option data-price="+ value.rate +" value="+value.rate_id+">"+ index + " "+value.rate +" "+value.currency + "</option>";
 		listHTML += item;
 	});
-	console.log(listHTML);
 	$('#shippingRatesMenu').append(listHTML);
+	addShippingPrice(ratesArray['First Class'].rate);
 }
 
 $(document).ajaxStart(function(){
@@ -17,8 +24,6 @@ $(document).ajaxStart(function(){
 	$('#loading').hide();
 	$('#shippingRatesMenu').show();
 });
-
-
 
 var getShippingRates = function(){
 
@@ -36,11 +41,10 @@ var getShippingRates = function(){
   			}
   		},
   		success: function(data){
-  			console.log(data)
   			parseShippingRates(data);
   		},
   		error: function(error){
-  			console.log(error);
+  			// console.log(error);
   		} 
 	}) // end ajax
 
@@ -51,7 +55,6 @@ $(document).ready(function(){
 	$('input[type="number"]').on('change', function(){
 		$('#updateBtn').show();
 	});
-
 
 	getShippingRates();
 
