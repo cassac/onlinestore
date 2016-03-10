@@ -38,11 +38,13 @@ def get_shipping_rates(request):
 
 		if user_address == None or not user_address.is_complete():
 			messages.add_message(request, messages.ERROR, '请提供邮件地址再结算')
+			url = request.build_absolute_uri(reverse('user_mailing_address'))
 			rates = {
-				'redirect needed': 'to_mailing_list'
+				'redirect_to': url,
 				}
 			data = json.dumps(rates)
-			return HttpResponse(data, content_type='application/json')
+			return HttpResponse(data, status=302, content_type='application/json')
+
 		try:
 			# Create parcel for rate calculation
 			parcel = easypost.Parcel.create(
