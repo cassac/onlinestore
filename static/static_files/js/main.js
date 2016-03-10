@@ -66,5 +66,22 @@ $(document).ready(function(){
 
 $('#submitOrder').on('click', function(e){
 	e.preventDefault();
+	var totalPrice = $('#totalPrice').text();
+	var selectedShipping = $('#shippingRatesMenu').find(":selected").val();
 	console.log('order submitted');
+	console.log(totalPrice, selectedShipping);
+
+	$.ajax({
+		url:'/orders/new',
+		type: 'POST',
+		contentType: 'application/json;charset=UTF-8',
+  		dataType: "json",
+  		success: function(r) {
+  			console.log(r);
+  		},
+  		error: function(r) {
+  			console.log(r);
+  		}	
+	})// end ajax
+
 })
