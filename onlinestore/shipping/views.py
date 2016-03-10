@@ -4,6 +4,8 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 easypost.api_key = settings.EASYPOST_API_KEY
 
@@ -31,11 +33,16 @@ def parse_shipping(name):
 
 def get_shipping_rates(request):
 	if request.method == 'GET':
-		user_address = request.user.usermailingaddress_set.first()
-		if user_address == None:
-			messages.add_message(request, messages.ERROR, '请提供邮件地址再结算')
-			return HttpResponseRedirect(reverse('user_mailing_address'))
 
+		user_address = request.user.usermailingaddress_set.first()
+
+		if user_address == None or not user_address.is_complete():
+			messages.add_message(request, messages.ERROR, '请提供邮件地址再结算')
+			rates = {
+				'redirect needed': 'to_mailing_list'
+				}
+			data = json.dumps(rates)
+			return HttpResponse(data, content_type='application/json')
 		try:
 			# Create parcel for rate calculation
 			parcel = easypost.Parcel.create(
